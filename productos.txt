@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Lapices",
+    "price": 1400,
+    "thumbnail": "https://i.imgur.com/Ga7zrmT.jpg",
+    "id": 1
+  },
+  {
+    "title": "Lapiceras",
+    "price": 2800,
+    "thumbnail": "https://i.imgur.com/JMyCJnY.jpg",
+    "id": 2
+  },
+  {
+    "title": "Fibras",
+    "price": 300,
+    "thumbnail": "https://i.imgur.com/CGhfUvi.jpg",
+    "id": 3
+  }
+]
