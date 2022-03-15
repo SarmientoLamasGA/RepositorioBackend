@@ -6,7 +6,7 @@ const PORT = 8080;
 //class
 class Container {
   constructor() {
-    this.url = `./productos.txt`;
+    this.url = `./productos.json`;
   }
   async searchFile() {
     try {
