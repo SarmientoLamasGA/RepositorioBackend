@@ -17,5 +17,4 @@
     "thumbnail": "https://i.imgur.com/CGhfUvi.jpg",
     "id": 3
   }
->>>>>>> 5cfea397a3dacc802fcff377838578769f0f0fc1
 ]
