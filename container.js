@@ -87,7 +87,7 @@ class Container {
   async update(id, newTitle, newPrice, newThumbnail) {
     try {
       const data = await this.getAll();
-      const exist = data.find((x) => x.id === Number(id));
+      const exist = data.find((x) => x.id === Number(id)); //Se busca si existe el ID
       if (exist) {
         const newProd = {
           title: newTitle,
@@ -115,7 +115,7 @@ class Container {
   async deleteById(index) {
     const data = await this.getAll();
     try {
-      const exist = data.find((x) => x.id === Number(index));
+      const exist = data.find((x) => x.id === Number(index)); // Se busca el si existe el ID
       if (exist) {
         const newArray = data.filter((x) => x.id != Number(index));
         fs.writeFile(this.url, JSON.stringify(newArray, null, 2), (er) => {

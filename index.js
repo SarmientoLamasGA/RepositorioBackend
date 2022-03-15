@@ -23,30 +23,29 @@ router.route("/").get((req, res) => {
 router
   .route("/productos")
   .get(async (req, res) => {
-    res.send(await contenedor.getAll());
+    res.send(await contenedor.getAll()); //Se obtiene todo el contenido
   })
   .post(async (req, res) => {
-    const title = req.body.title;
-    const price = req.body.price;
-    const thumbnail = req.body.thumbnail;
-
-    res.send(await contenedor.save({ title, price, thumbnail }));
+    const title = String(req.body.title);
+    const price = Number(req.body.price);
+    const thumbnail = String(req.body.thumbnail);
+    res.send(await contenedor.save({ title, price, thumbnail })); // Se envian los valores
   });
 
 router
   .route("/productos/:id")
   .get(async (req, res) => {
-    res.send(await contenedor.getByID(req.params.id));
+    res.send(await contenedor.getByID(req.params.id)); //Se obtiene el ID especificado en caso de que exista
   })
   .put(async (req, res) => {
     const id = Number(req.params.id);
     const title = String(req.body.title);
     const price = Number(req.body.price);
     const thumbnail = String(req.body.thumbnail);
-    res.send(await contenedor.update(id, title, price, thumbnail, id));
+    res.send(await contenedor.update(id, title, price, thumbnail, id)); // Se modifica el objeto correspondiente al ID en caso de que exista
   })
   .delete(async (req, res) => {
-    res.send(await contenedor.deleteById(req.params.id));
+    res.send(await contenedor.deleteById(req.params.id)); //Se borra el objeto según el ID
   });
 
 app.use("/api", router);
