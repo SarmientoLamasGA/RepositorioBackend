@@ -89,23 +89,21 @@ class Container {
       const data = await this.getAll();
       const exist = data.find((x) => x.id === Number(id)); //Se busca si existe el ID
       if (exist) {
-        const newProd = {
-          title: newTitle,
-          price: newPrice,
-          thumbnail: newThumbnail,
-          id: id,
-        };
-        const del = id - 1;
-        data.splice(del, 1, newProd);
-        fs.writeFile(this.url, JSON.stringify(data, null, 2), (er) => {
-          if (er) {
-            return { info: "no se pudo modificar el archivo" };
-          } else {
-            return { info: "Producto modificado" };
-          }
-        });
-      } else {
-        return { error: "Fuera de rango" };
+        const item = data.findIndex((x) => x.id === id);
+        if (item != undefined) {
+          data[item].title = newTitle;
+          data[item].price = newPrice;
+          data[item].thumbnail = newThumbnail;
+          fs.writeFile(this.url, JSON.stringify(data, null, 2), (er) => {
+            if (er) {
+              return { info: "no se pudo modificar el archivo" };
+            } else {
+              return { info: "Producto modificado" };
+            }
+          });
+        } else {
+          return { error: "Fuera de rango" };
+        }
       }
     } catch (er) {
       return { info: "No se pudo realizar ninguna modificación" };
