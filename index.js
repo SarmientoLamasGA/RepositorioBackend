@@ -1,15 +1,28 @@
 const express = require("express");
 const { Router } = require("express");
 const Container = require("./container");
+const handlebars = require("express-handlebars");
 
 const app = express();
 const router = Router();
 const PORT = 8080;
 
-const server = app.listen(PORT, () => {
+app.engine(
+  "hbs",
+  handlebars.engine({
+    extname: ".hbs",
+    defaultLayout: "index.hbs",
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials",
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", "./views");
+
+app.listen(PORT, () => {
   console.log(`Servidor funcionando en puerto ${PORT}`);
 });
-app.use(`/static`, express.static(__dirname + `/public`));
+app.use(express.static(__dirname + `/public`));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,13 +30,13 @@ app.use(express.urlencoded({ extended: true }));
 const contenedor = new Container();
 
 router.route("/").get((req, res) => {
-  res.send(`<h1>Inicio</h1>`);
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 router
   .route("/productos")
   .get(async (req, res) => {
-    res.send(await contenedor.getAll()); //Se obtiene todo el contenido
+    res.render("main", { data: await contenedor.getAll() }); //Se obtiene todo el contenido
   })
   .post(async (req, res) => {
     const title = String(req.body.title);
