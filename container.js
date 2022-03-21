@@ -48,6 +48,7 @@ class Container {
 
   async save({ title, price, thumbnail }) {
     try {
+      console.log(title);
       const data = await this.getAll();
       const lastId = Math.max(...data.map((x) => x.id)); //Se busca el ID mas alto
       if (lastId != -Infinity) {

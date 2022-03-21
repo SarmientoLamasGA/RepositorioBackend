@@ -42,7 +42,8 @@ router
     const title = String(req.body.title);
     const price = Number(req.body.price);
     const thumbnail = String(req.body.thumbnail);
-    res.send(await contenedor.save({ title, price, thumbnail })); // Se envian los valores
+    await contenedor.save({ title, price, thumbnail });
+    res.redirect("/");
   });
 
 router
