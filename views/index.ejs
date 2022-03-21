@@ -1,0 +1,26 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/css/stylesTemplates.css" />
+    <title>Desafío EJS</title>
+  </head>
+  <body>
+    <section class="prodList">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Imagen</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        <%- include("./partials/prodList"); %>
+      </table>
+    </section>
+    <div>
+      <button><a href="/">Volver</a></button>
+    </div>
+  </body>
+</html>

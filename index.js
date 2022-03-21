@@ -7,22 +7,14 @@ const app = express();
 const router = Router();
 const PORT = 8080;
 
-app.engine(
-  "hbs",
-  handlebars.engine({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "/views/layouts",
-    partialsDir: __dirname + "/views/partials",
-  })
-);
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.listen(PORT, () => {
   console.log(`Servidor funcionando en puerto ${PORT}`);
 });
 app.use(express.static(__dirname + `/public`));
+app.use("/styles", express.static(__dirname + "/styles"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,7 +28,7 @@ router.route("/").get((req, res) => {
 router
   .route("/productos")
   .get(async (req, res) => {
-    res.render("main", { data: await contenedor.getAll() }); //Se obtiene todo el contenido
+    res.render("index", { data: await contenedor.getAll() }); //Se obtiene todo el contenido
   })
   .post(async (req, res) => {
     const title = String(req.body.title);
