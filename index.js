@@ -1,22 +1,12 @@
 const express = require("express");
 const { Router } = require("express");
 const Container = require("./container");
-const handlebars = require("express-handlebars");
 
 const app = express();
 const router = Router();
 const PORT = 8080;
 
-app.engine(
-  "hbs",
-  handlebars.engine({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "/views/layouts",
-    partialsDir: __dirname + "/views/partials",
-  })
-);
-app.set("view engine", "hbs");
+app.set("view engine", "pug");
 app.set("views", "./views");
 
 app.listen(PORT, () => {
