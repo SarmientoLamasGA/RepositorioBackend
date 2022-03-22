@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  body {
+    background-color: rgb(250, 210, 225);
+    .prodList {
+      table {
+        width: 100%;
+        background-color: rgb(253, 226, 228);
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        thead {
+          tr {
+            border-style: solid;
+            border-width: 1px;
+            border-color: black;
+            th {
+              border-style: solid;
+              border-width: 1px;
+              border-color: black;
+              background-color: rgb(205, 218, 253);
+            }
+            td {
+              border-style: solid;
+              border-width: 1px;
+              border-color: black;
+              p {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+              }
+            }
+          }
+        }
+        .prod {
+          border-style: solid;
+          border-width: 1px;
+          border-color: black;
+          td {
+            border-style: solid;
+            border-width: 1px;
+            border-color: black;
+          }
+        }
+      }
+    }
+  }
+}
