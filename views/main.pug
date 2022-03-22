@@ -2,15 +2,25 @@ head
   meta(charset='UTF-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Desafío Plantillas
-  body
-    if data.length > 0
-      each prod in data
-        div
-          p=prod.title
-          img(src=prod.thumbnail, alt="")
-          p=prod.price
-    else 
-      p="No hay productos"
+  link(rel='stylesheet' href='../styles/css/stylesTemplates.css')
+  title Desafío EJS
+  section.prodList
+    table
+      thead
+        tr
+          th Producto
+          th Imagen
+          th Precio
+      tr.prod
+        if data.length > 0
+        each prod in data
+          tr
+            td=prod.title
+            td 
+              img(src=prod.thumbnail, alt="")
+            td=`$${prod.price}` 
+        else 
+          p="No hay productos"
+  div
     button
-      a(href="/")="Ir al inicio"
+        a(href="/")="Ir al inicio"
