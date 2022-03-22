@@ -1,8 +1,27 @@
-{{#each data}}
-  <p>{{title}}</p>
-  <img src="{{thumbnail}}" alt="" />
-  <p>{{price}}</p>
-{{/each}}
-<button>
-  <a href="/">Volver</a>
-</button>
+    <section class="prodList">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Imagen</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        {{#if data}}
+        {{#each data}}
+        <tr>
+            <td>{{title}}</td>
+            <td>
+              <img src="{{thumbnail}}" alt="" style="max-height: 150px;" />
+            </td>
+            <td>${{price}}</td></tr>
+        {{/each}}
+        {{else}}
+        <tr>
+          <td>No hay productos</td>
+        </tr>
+        {{/if}}
+              </table>
+        <button>
+          <a href="/">Volver</a>
+        </button>

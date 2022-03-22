@@ -23,6 +23,7 @@ app.listen(PORT, () => {
   console.log(`Servidor funcionando en puerto ${PORT}`);
 });
 app.use(express.static(__dirname + `/public`));
+app.use("/styles", express.static(__dirname + `/styles`));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
