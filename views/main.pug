@@ -17,7 +17,7 @@ head
           tr
             td=prod.title
             td 
-              img(src=prod.thumbnail, alt="")
+              img(src=prod.thumbnail, alt="" style="max-height: 150px")
             td=`$${prod.price}` 
         else 
           p="No hay productos"
