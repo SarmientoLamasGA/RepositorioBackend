@@ -5,48 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/css/styles.css" />
+    <script src="/socket.io/socket.io.js"></script>
     <title>Inicio</title>
   </head>
   <body>
-    <h1>Inicio</h1>
-    <form action="api/productos" method="post">
-      <label for="Producto"
-        >Producto
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Example"
-          required
-        />
-      </label>
-      <label for="Precio"
-        >Precio
-        <input
-          type="number"
-          id="price"
-          name="price"
-          placeholder="$####"
-          required
-        />
-      </label>
-      <label for="Miniatura"
-        >Imagen
-        <input
-          type="text"
-          id="thumbnail"
-          name="thumbnail"
-          placeholder="https://www.example.com/img"
-          required
-        />
-      </label>
-      <button type="submit">Cargar producto</button>
-    </form>
-    <div>
-      <p>Lista de productos</p>
-      <button>
-        <a href="/api/productos"><p>Ir a lista</p></a>
-      </button>
-    </div>
+    <section class="formSection">
+      <h1>Inicio</h1>
+      <form action="api/productos" method="post">
+        <label for="Producto"
+          >Producto
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Example"
+            required
+          />
+        </label>
+        <label for="Precio"
+          >Precio
+          <input
+            type="number"
+            id="price"
+            name="price"
+            placeholder="$####"
+            required
+          />
+        </label>
+        <label for="Miniatura"
+          >Imagen
+          <input
+            type="text"
+            id="thumbnail"
+            name="thumbnail"
+            placeholder="https://www.example.com/img"
+            required
+          />
+        </label>
+        <button type="submit">Cargar producto</button>
+      </form>
+      <div>
+        <p>Lista de productos</p>
+        <button>
+          <a href="/api/productos"><p>Ir a lista</p></a>
+        </button>
+      </div>
+    </section>
+    <script src="/index.js"></script>
   </body>
 </html>

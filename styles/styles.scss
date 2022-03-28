@@ -4,31 +4,37 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  form {
-    background-color: rgb(234, 228, 233);
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
-    width: 50%;
+  .formSection {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    label {
+    form {
+      background-color: rgb(234, 228, 233);
+      border-width: 2px;
+      border-style: solid;
+      border-color: black;
       width: 50%;
-      text-align: center;
-      margin: 5px auto 5px auto;
-      input {
-        width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      label {
+        width: 50%;
+        text-align: center;
+        margin: 5px auto 5px auto;
+        input {
+          width: 100%;
+        }
+      }
+      button {
+        text-align: center;
+        margin: 5px auto 5px auto;
       }
     }
-    button {
-      text-align: center;
-      margin: 5px auto 5px auto;
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-  }
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 }

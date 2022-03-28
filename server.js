@@ -1,16 +1,25 @@
 const express = require("express");
 const { Router } = require("express");
+const { Server: HttpServer } = require("http");
+const { Server: IOServer } = require("socket.io");
 const Container = require("./container");
-const handlebars = require("express-handlebars");
+// const MessageDataBase = require("./messageDataBase")
 
 const app = express();
 const router = Router();
 const PORT = 8080;
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
 
+const messageDataBase = [
+  { userEmail: "prueba@asd.dsa", time: "hora", message: "mensaje" },
+];
+
+//Template
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Servidor funcionando en puerto ${PORT}`);
 });
 app.use(express.static(__dirname + `/public`));
@@ -21,6 +30,23 @@ app.use(express.urlencoded({ extended: true }));
 
 const contenedor = new Container();
 
+//Websocket
+
+// const messageDataBase = new MessageDataBase;
+
+io.on("connection", (socket) => {
+  //Conexion
+  console.log("Usuario conectado");
+  io.sockets.emit("requestChat", messageDataBase);
+
+  //Server
+  socket.on("newMessage", (message) => {
+    messageDataBase.push(message);
+    io.sockets.emit("messages", messageDataBase);
+  });
+});
+
+//Metodos
 router.route("/").get((req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });

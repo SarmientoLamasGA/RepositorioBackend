@@ -19,6 +19,22 @@
         <%- include("./partials/prodList"); %>
       </table>
     </section>
+    <section class="chatSection">
+      <h1>Deje su mensaje</h1>
+      <div>
+        <form onsubmit="addMessage(this)">
+          <label for="e-mail">
+            <input type="email" id="inputEmail" required />
+          </label>
+          <label for="Mensaje">
+            <input type="text" id="inputMessage" required />
+          </label>
+          <button type="submit" id="btnSend">Enviar Mensaje</button>
+        </form>
+      </div>
+      <h1>Historial de mensajes</h1>
+      <div id="chatBox"></d>
+    </section>
     <div>
       <button><a href="/">Volver</a></button>
     </div>
