@@ -2,7 +2,48 @@
   margin: 0;
   padding: 0;
   body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: rgb(250, 210, 225);
+    .formSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      .formSection {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        form {
+          background-color: rgb(234, 228, 233);
+          border-width: 2px;
+          border-style: solid;
+          border-color: black;
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          label {
+            width: 50%;
+            text-align: center;
+            margin: 5px auto 5px auto;
+            input {
+              width: 100%;
+            }
+          }
+          button {
+            text-align: center;
+            margin: 5px auto 5px auto;
+            align-self: center;
+          }
+        }
+        div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
     .prodList {
       table {
         width: 100%;
@@ -10,7 +51,6 @@
         border-style: solid;
         border-width: 1px;
         border-color: black;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         thead {
           tr {
             border-style: solid;
@@ -40,6 +80,45 @@
             border-style: solid;
             border-width: 1px;
             border-color: black;
+          }
+        }
+      }
+    }
+    .chatSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      #chatBox {
+        padding: 2.5%;
+        width: 90%;
+        background-color: rgb(255, 241, 230);
+        border-style: solid;
+        border-width: 2px;
+        border-color: black;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        height: 250px;
+        overflow: auto;
+        .messageBox {
+          margin: 1.5% 0 1.5% 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .left {
+            width: 50%;
+            background-color: rgb(223, 231, 253);
+            .author {
+              font-weight: bold;
+              color: blue;
+            }
+            .msg {
+              font-style: italic;
+              color: green;
+            }
+          }
+          .time {
+            color: brown;
           }
         }
       }

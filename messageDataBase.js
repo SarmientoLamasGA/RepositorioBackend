@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { stringify } = require("querystring");
 
 class messageDataBase {
   constructor() {
@@ -23,9 +24,13 @@ class messageDataBase {
   async saveChat(data) {
     try {
       const file = await this.searchFile();
-      file.push(data);
+      file.push({
+        userEmail: String(data.userEmail),
+        message: String(data.message),
+        time: String(data.time),
+      });
       console.log(file);
-      fs.writeFile(this.url, JSON.stringify(file, null, 2), (er) => {
+      fs.promises.writeFile(this.url, JSON.stringify(file, null, 2), (er) => {
         if (er) {
           return { info: "Error, el chat no se pudo guardar" };
         } else {

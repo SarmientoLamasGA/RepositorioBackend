@@ -4,7 +4,85 @@
 }
 
 * body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fad2e1;
+}
+
+* body .formSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+}
+
+* body .formSection .formSection {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+* body .formSection .formSection form {
+  background-color: #eae4e9;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+* body .formSection .formSection form label {
+  width: 50%;
+  text-align: center;
+  margin: 5px auto 5px auto;
+}
+
+* body .formSection .formSection form label input {
+  width: 100%;
+}
+
+* body .formSection .formSection form button {
+  text-align: center;
+  margin: 5px auto 5px auto;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+* body .formSection .formSection div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 * body .prodList table {
@@ -13,7 +91,6 @@
   border-style: solid;
   border-width: 1px;
   border-color: black;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * body .prodList table thead tr {
@@ -49,5 +126,69 @@
   border-style: solid;
   border-width: 1px;
   border-color: black;
+}
+
+* body .chatSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+* body .chatSection #chatBox {
+  padding: 2.5%;
+  width: 90%;
+  background-color: #fff1e6;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 250px;
+  overflow: auto;
+}
+
+* body .chatSection #chatBox .messageBox {
+  margin: 1.5% 0 1.5% 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+* body .chatSection #chatBox .messageBox .left {
+  width: 50%;
+  background-color: #dfe7fd;
+}
+
+* body .chatSection #chatBox .messageBox .left .author {
+  font-weight: bold;
+  color: blue;
+}
+
+* body .chatSection #chatBox .messageBox .left .msg {
+  font-style: italic;
+  color: green;
+}
+
+* body .chatSection #chatBox .messageBox .time {
+  color: brown;
 }
 /*# sourceMappingURL=stylesTemplates.css.map */

@@ -44,7 +44,6 @@ io.on("connection", async (socket) => {
 
   socket.on("newProd", async (prod) => {
     await contenedor.save(prod);
-    console.log(prod);
     io.sockets.emit("prodList", { data: await contenedor.getAll() }); //No sé si es útil ya que en connection hay una línea que actualiza constantemente (39)
   });
 

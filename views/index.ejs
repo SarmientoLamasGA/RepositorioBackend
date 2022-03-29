@@ -44,6 +44,7 @@
         </label>
         <button type="submit">Cargar producto</button>
       </form>
+    </section>
     <section class="prodList">
       <table id="prodTable">
         <thead>
@@ -62,18 +63,19 @@
       <h1>Deje su mensaje</h1>
       <div>
         <form onsubmit="addMessage(this)">
-          <label for="e-mail">
+          <label for="e-mail"
+            >Ingrese email
             <input type="email" id="inputEmail" required />
           </label>
-          <label for="Mensaje">
+          <label for="Mensaje"
+            >Ingrese mensaje
             <input type="message" id="inputMessage" required />
           </label>
           <button type="submit" id="btnSend">Enviar Mensaje</button>
         </form>
       </div>
       <h1>Historial de mensajes</h1>
-      <div id="chatBox">
-      </div>
+      <div id="chatBox"></div>
     </section>
     <div>
       <button><a href="/">Volver</a></button>
@@ -86,21 +88,21 @@
       const inputThumbnail = document.getElementById("inputThumbnail");
       const tBody = document.getElementById("tBody");
 
-      const addProduct = e => {
+      const addProduct = (e) => {
         const prod = {
           title: inputTitle.value,
           price: inputPrice.value,
-          thumbnail: inputThumbnail.value
-        }
+          thumbnail: inputThumbnail.value,
+        };
         socket.emit("newProd", prod);
         return false;
-      }
+      };
 
-      const renderProdTable = data => {
+      const renderProdTable = (data) => {
         tBody.innerHTML = "";
         const tr = data
-        .map((prod) => {
-          return(`<tr class="prod">
+          .map((prod) => {
+            return `<tr class="prod">
             <td><p class="title">${prod.title}</p></td>
             <td>
               <img
@@ -110,43 +112,56 @@
               />
             </td>
             <td><p class="price">$${prod.price}</p></td>
-          </tr>`)}).join("")
-          tBody.innerHTML = tr;
-      }
+          </tr>`;
+          })
+          .join("");
+        tBody.innerHTML = tr;
+      };
 
-      socket.on("requestProducts", data => {renderProdTable(data)})
+      socket.on("requestProducts", (data) => {
+        renderProdTable(data);
+      });
 
       //Chat
       const email = document.getElementById("inputEmail");
       const message = document.getElementById("inputMessage");
       const chatBox = document.getElementById("chatBox");
 
-      const addMessage = e => {
+      const addMessage = (e) => {
+        const d = new Date();
+        const timeFormat = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         const messageInfo = {
           userEmail: email.value,
           message: message.value,
-          time: new Date()
-        }
+          time: timeFormat,
+        };
         socket.emit("newMessage", messageInfo);
-        return false
-      }
+        return false;
+      };
 
       const renderChat = (data) => {
-        console.log(data)
-        chatBox.innerHTML = "";
+        if (data.length >= 1) {
+          chatBox.innerHTML = "";
           const chat = data
-            .map((message) => { 
-              return(
-                `<div>
-                  <strong>${message.userEmail} ha dejado un mesaje</strong>: 
-                  <em>${message.message} a las ${message.time}</em>
-                </div>`
-            )}).join(" ")
-            chatBox.innerHTML = chat;
-          }
+            .map((message) => {
+              return `<div class="messageBox">
+                      <div class="left">
+                        <p class="author">${message.userEmail} dijo:</p> 
+                        <p class="msg">${message.message}</p>
+                      </div>
+                      <p class="time">${message.time}</p>
+                    </div>`;
+            })
+            .join(" ");
+          chatBox.innerHTML = chat;
+        } else {
+          chatBox.innerHTML = `<div class="messageBox"><p>No hay Mensajes aún</p></div>`;
+        }
+      };
 
-      socket.on("requestChat", data => {renderChat(data)})
-
+      socket.on("requestChat", (data) => {
+        renderChat(data);
+      });
     </script>
   </body>
 </html>
