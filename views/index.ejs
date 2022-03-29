@@ -1,14 +1,51 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/css/stylesTemplates.css" />
+    <script src="/socket.io/socket.io.js"></script>
     <title>Desafío EJS</title>
   </head>
   <body>
+    <section class="formSection">
+      <h1>Lista de productos</h1>
+      <form onsubmit="addProduct(this)">
+        <label for="Producto"
+          >Producto
+          <input
+            type="text"
+            id="inputTitle"
+            name="title"
+            placeholder="Example"
+            required
+          />
+        </label>
+        <label for="Precio"
+          >Precio
+          <input
+            type="number"
+            id="inputPrice"
+            name="price"
+            placeholder="$####"
+            required
+          />
+        </label>
+        <label for="Miniatura"
+          >Imagen
+          <input
+            type="text"
+            id="inputThumbnail"
+            name="thumbnail"
+            placeholder="https://www.example.com/img"
+            required
+          />
+        </label>
+        <button type="submit">Cargar producto</button>
+      </form>
     <section class="prodList">
-      <table>
+      <table id="prodTable">
         <thead>
           <tr>
             <th>Producto</th>
@@ -22,7 +59,7 @@
     <section class="chatSection">
       <h1>Deje su mensaje</h1>
       <div>
-        <form onsubmit="addMessage(this)">
+        <form onsubmit="addProduct(this)">
           <label for="e-mail">
             <input type="email" id="inputEmail" required />
           </label>
@@ -33,10 +70,50 @@
         </form>
       </div>
       <h1>Historial de mensajes</h1>
-      <div id="chatBox"></d>
+      <div id="chatBox"><%- include("./partials/chatBox"); %> </div>
     </section>
     <div>
       <button><a href="/">Volver</a></button>
     </div>
+    <script>
+      const socket = io();
+
+      const inputTitle = document.getElementById("inputTitle");
+      const inputPrice = document.getElementById("inputPrice");
+      const inputThumbnail = document.getElementById("inputThumbnail");
+      const prodTable = document.getElementById("prodTable");
+
+
+      const addProduct = e => {
+        const prod = {
+          title: inputTitle.value,
+          price: inputPrice.value,
+          thumbnail: inputThumbnail.value
+        }
+        socket.emit("newProd", prod);
+        return false;
+      }
+
+      const render = data => {
+        prodTable.innerHTML = "";
+        const html = data
+        .map((prod) => {
+          return(`<tr class="prod">
+            <td><p class="title">${prod.title}</p></td>
+            <td>
+              <img
+                src="${prod.thumbnail}"
+                alt="${prod.title} img"
+                style="max-height: 150px"
+              />
+            </td>
+            <td><p class="price">$${prod.price}</p></td>
+          </tr>`)}).join("")
+        prodTable.innerHTML = html;
+      }
+
+      socket.on("requestProducts", data => {render(data)})
+
+    </script>
   </body>
 </html>

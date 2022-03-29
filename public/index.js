@@ -3,7 +3,6 @@ const socket = io();
 //DOM
 const inputEmail = document.getElementById("inputEmail");
 const inputMessage = document.getElementById("inputMessage");
-const btnSend = document.getElementById("btnSend");
 const chatBox = document.getElementById("chatBox");
 
 const addMessage = (e) => {
@@ -16,7 +15,8 @@ const addMessage = (e) => {
   return false;
 };
 
-const render = (data) => {
+const renderChat = (data) => {
+  console.log(data);
   chatBox.innerHTML = "";
   const html = data
     .map((message) => {

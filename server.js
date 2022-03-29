@@ -34,15 +34,22 @@ const contenedor = new Container();
 
 // const messageDataBase = new MessageDataBase;
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   //Conexion
   console.log("Usuario conectado");
   io.sockets.emit("requestChat", messageDataBase);
+  io.sockets.emit("requestProducts", await contenedor.getAll());
 
   //Server
   socket.on("newMessage", (message) => {
     messageDataBase.push(message);
     io.sockets.emit("messages", messageDataBase);
+  });
+
+  socket.on("newProd", async (prod) => {
+    await contenedor.save(prod);
+    console.log(prod);
+    io.sockets.emit("prodList", { data: await contenedor.getAll() });
   });
 });
 

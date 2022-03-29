@@ -6,10 +6,10 @@ class Container {
     this.url = `./productos.json`;
   }
   async searchFile() {
-    try {
+    if (fs.existsSync(this.url)) {
       const file = await fs.promises.readFile(this.url, "utf-8"); //Se busca archivo
       return JSON.parse(file);
-    } catch (er) {
+    } else {
       //Si no existe el archivo, se procede a crar uno nuevo
       await fs.promises.writeFile(this.url, "[]"); //Se crea archivo
       await fs.promises.readFile(this.url, "utf-8"); //Se lee el archivo creado
@@ -43,16 +43,15 @@ class Container {
     return randomProd;
   }
 
-  async save({ title, price, thumbnail }) {
+  async save(prod) {
     try {
-      console.log(title);
       const data = await this.getAll();
       const lastId = Math.max(...data.map((x) => x.id)); //Se busca el ID mas alto
       if (lastId != -Infinity) {
         data.push({
-          title: String(title),
-          price: Number(price),
-          thumbnail: String(thumbnail),
+          title: String(prod.title),
+          price: Number(prod.price),
+          thumbnail: String(prod.thumbnail),
           id: Number(lastId + 1), //Se genera un ID en base al ID superior ya existente
         }); //Push
         fs.writeFile(this.url, JSON.stringify(data, null, 2), (er) => {
