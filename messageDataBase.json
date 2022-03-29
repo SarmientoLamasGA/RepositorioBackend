@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "userEmail": "prueba@asd.dsa",
+    "time": 11,
+    "message": "mensaje"
+  },
+  {
+    "userEmail": "sarmiento.lamas.g.a@gmail.com",
+    "message": "asdsa",
+    "time": "2022-03-29T18:48:00.003Z"
+  }
+]

@@ -2,7 +2,7 @@ const fs = require("fs");
 
 class messageDataBase {
   constructor() {
-    url = "./messageDataBase.json";
+    this.url = "./messageDataBase.json";
   }
   async searchFile() {
     try {
@@ -20,7 +20,22 @@ class messageDataBase {
     return file;
   }
 
-  async saveChat() {}
+  async saveChat(data) {
+    try {
+      const file = await this.searchFile();
+      file.push(data);
+      console.log(file);
+      fs.writeFile(this.url, JSON.stringify(file, null, 2), (er) => {
+        if (er) {
+          return { info: "Error, el chat no se pudo guardar" };
+        } else {
+          return { info: "Chat guardado" };
+        }
+      });
+    } catch (er) {
+      return { info: "Hubo un error" };
+    }
+  }
 }
 
 module.exports = messageDataBase;

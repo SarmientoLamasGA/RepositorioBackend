@@ -53,36 +53,38 @@
             <th>Precio</th>
           </tr>
         </thead>
-        <%- include("./partials/prodList"); %>
+        <tbody id="tBody">
+          <%- include("./partials/prodList"); %>
+        </tbody>
       </table>
     </section>
     <section class="chatSection">
       <h1>Deje su mensaje</h1>
       <div>
-        <form onsubmit="addProduct(this)">
+        <form onsubmit="addMessage(this)">
           <label for="e-mail">
             <input type="email" id="inputEmail" required />
           </label>
           <label for="Mensaje">
-            <input type="text" id="inputMessage" required />
+            <input type="message" id="inputMessage" required />
           </label>
           <button type="submit" id="btnSend">Enviar Mensaje</button>
         </form>
       </div>
       <h1>Historial de mensajes</h1>
-      <div id="chatBox"><%- include("./partials/chatBox"); %> </div>
+      <div id="chatBox">
+      </div>
     </section>
     <div>
       <button><a href="/">Volver</a></button>
     </div>
     <script>
       const socket = io();
-
+      //Productos
       const inputTitle = document.getElementById("inputTitle");
       const inputPrice = document.getElementById("inputPrice");
       const inputThumbnail = document.getElementById("inputThumbnail");
-      const prodTable = document.getElementById("prodTable");
-
+      const tBody = document.getElementById("tBody");
 
       const addProduct = e => {
         const prod = {
@@ -94,9 +96,9 @@
         return false;
       }
 
-      const render = data => {
-        prodTable.innerHTML = "";
-        const html = data
+      const renderProdTable = data => {
+        tBody.innerHTML = "";
+        const tr = data
         .map((prod) => {
           return(`<tr class="prod">
             <td><p class="title">${prod.title}</p></td>
@@ -109,10 +111,41 @@
             </td>
             <td><p class="price">$${prod.price}</p></td>
           </tr>`)}).join("")
-        prodTable.innerHTML = html;
+          tBody.innerHTML = tr;
       }
 
-      socket.on("requestProducts", data => {render(data)})
+      socket.on("requestProducts", data => {renderProdTable(data)})
+
+      //Chat
+      const email = document.getElementById("inputEmail");
+      const message = document.getElementById("inputMessage");
+      const chatBox = document.getElementById("chatBox");
+
+      const addMessage = e => {
+        const messageInfo = {
+          userEmail: email.value,
+          message: message.value,
+          time: new Date()
+        }
+        socket.emit("newMessage", messageInfo);
+        return false
+      }
+
+      const renderChat = (data) => {
+        console.log(data)
+        chatBox.innerHTML = "";
+          const chat = data
+            .map((message) => { 
+              return(
+                `<div>
+                  <strong>${message.userEmail} ha dejado un mesaje</strong>: 
+                  <em>${message.message} a las ${message.time}</em>
+                </div>`
+            )}).join(" ")
+            chatBox.innerHTML = chat;
+          }
+
+      socket.on("requestChat", data => {renderChat(data)})
 
     </script>
   </body>
