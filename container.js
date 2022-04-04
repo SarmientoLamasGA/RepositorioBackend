@@ -48,10 +48,16 @@ class Container {
       const data = await this.getAll();
       const lastId = Math.max(...data.map((x) => x.id)); //Se busca el ID mas alto
       if (lastId != -Infinity) {
+        const max = 1000000;
+        const min = 1;
         data.push({
           title: String(prod.title),
           price: Number(prod.price),
+          stock: Number(prod.stock),
           thumbnail: String(prod.thumbnail),
+          description: String(prod.description),
+          timeStamp: Number(Date.now()),
+          code: Number(Math.floor(Math.random() * (max - min) + min)),
           id: Number(lastId + 1), //Se genera un ID en base al ID superior ya existente
         }); //Push
         fs.writeFile(this.url, JSON.stringify(data, null, 2), (er) => {
@@ -65,7 +71,11 @@ class Container {
         data.push({
           title: String(title),
           price: Number(price),
+          stock: Number(prod.stock),
           thumbnail: String(thumbnail),
+          description: String(prod.description),
+          timeStamp: Number(Date.now()),
+          code: Number(Math.floor(Math.random() * (max - min) + min)),
           id: Number(1), //se genera el primer ID
         }); //Push
         fs.writeFile(this.url, JSON.stringify(data, null, 2), (er) => {

@@ -1,20 +1,32 @@
 [
   {
-    "title": "Lapices",
+    "title": "Lápiz Staedtler Cajax12 unidades",
     "price": 1400,
     "thumbnail": "https://i.imgur.com/Ga7zrmT.jpg",
+    "description": "Lápiz negro de gráfito N° 2 HB. Muy vérsatiles, para escribir y dibujar como para otros trabajos y superficies más allá del papel.",
+    "timestamp": 1648935442930,
+    "code": 302631,
+    "stock": 5000,
     "id": 1
   },
   {
-    "title": "Lapiceras",
+    "title": "Lapicera Parker Jotter x unidad",
     "price": 2800,
     "thumbnail": "https://i.imgur.com/JMyCJnY.jpg",
+    "description": "Lapiceras de la mejor calidad, con su estuche propio. Se les graba el nombre o logo del dueño o de la compañía(enviar .svg). Ultras resistentes y durables. Colores a elección.",
+    "timestamp": 1648935442931,
+    "code": 302632,
+    "stock": 5000,
     "id": 2
   },
   {
-    "title": "Fibras",
+    "title": "Fibras Filgo x10 unidades",
     "price": 300,
     "thumbnail": "https://i.imgur.com/CGhfUvi.jpg",
+    "description": "Paquete de 10 fibras Filgo, colores varios. Excelente para todo uso, en especial para niños. Lavables y no tóxicas",
+    "timestamp": 1648935442933,
+    "code": 302633,
+    "stock": 5000,
     "id": 3
   }
 ]

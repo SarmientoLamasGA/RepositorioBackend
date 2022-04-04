@@ -3,17 +3,16 @@ const { Router } = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const Container = require("./container");
+const CartContainer = require("./cartContainer");
 const MessageDataBase = require("./messageDataBase");
 
 const app = express();
 const router = Router();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-// const messageDataBase = [
-//   { userEmail: "prueba@asd.dsa", time: "hora", message: "mensaje" },
-// ];
+const admin = true;
 
 //Template
 app.set("view engine", "ejs");
@@ -29,10 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const contenedor = new Container();
+const cartContainer = new CartContainer();
 const messageDataBase = new MessageDataBase();
 
 //Websocket
-
 io.on("connection", async (socket) => {
   //Conexion
   console.log("Usuario conectado");
@@ -55,37 +54,90 @@ io.on("connection", async (socket) => {
 });
 
 //Metodos
+
+//Root
 router.route("/").get((req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 
+//Listado de productos
 router
   .route("/productos")
   .get(async (req, res) => {
-    res.render("index", { data: await contenedor.getAll() }); //Se obtiene todo el contenido
+    res.render("index", { data: await contenedor.getAll() });
   })
   .post(async (req, res) => {
-    const title = String(req.body.title);
-    const price = Number(req.body.price);
-    const thumbnail = String(req.body.thumbnail);
-    await contenedor.save({ title, price, thumbnail });
-    res.redirect("/");
+    if (admin) {
+      await contenedor.save(req.body);
+      res.redirect("/");
+    } else {
+      return { error: "-1", descripcion: `POST a "/" no autorizado` };
+    }
   });
 
 router
-  .route("/productos/:id")
+  .route("/productos/:id?")
   .get(async (req, res) => {
-    res.send(await contenedor.getByID(req.params.id)); //Se obtiene el ID especificado en caso de que exista
+    req.params.id
+      ? res.send(await contenedor.getByID(req.params.id)) //Se obtiene el ID especificado en caso de que exista
+      : res.send(await contenedor.getAll()); //Se obtiene todo el contenido
   })
   .put(async (req, res) => {
-    const id = Number(req.params.id);
-    const title = String(req.body.title);
-    const price = Number(req.body.price);
-    const thumbnail = String(req.body.thumbnail);
-    res.send(await contenedor.update(id, title, price, thumbnail, id)); // Se modifica el objeto correspondiente al ID en caso de que exista
+    if (admin) {
+      const id = Number(req.params.id);
+      const title = String(req.body.title);
+      const price = Number(req.body.price);
+      const thumbnail = String(req.body.thumbnail);
+      res.send(await contenedor.update(req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista
+    } else {
+      return { error: "-1", descripcion: `PUT a "/productos" no autorizado` };
+    }
   })
   .delete(async (req, res) => {
-    res.send(await contenedor.deleteById(req.params.id)); //Se borra el objeto según el ID
+    if (admin) {
+      res.send(await contenedor.deleteById(req.params.id)); //Se borra el objeto según el ID
+    } else {
+      return {
+        error: "-1",
+        descripcion: `DELETE a "/productos" no autorizado`,
+      };
+    }
   });
+
+//Carro de compras
+router.route("/carrito").post(async (req, res) => {
+  res.send(await cartContainer.createCart());
+});
+
+router.route("/carrito/:id").delete(async (req, res) => {
+  req.params.id
+    ? res.send(await cartContainer.deleteCart(req.params.id))
+    : res.send({ info: "No existe este carrito" });
+});
+
+router
+  .route("/carrito/:id/productos")
+  .get(async (req, res) => {
+    res.send(await cartContainer.getCart(req.params.id));
+  })
+  .post(async (req, res) => {
+    //El agregado de productos se realiza por medio de ID!!
+    const id = req.body.id;
+    const product = await contenedor.getByID(id);
+    res.send(await cartContainer.addProduct(req.params.id, product));
+  });
+
+router.route("/carrito/:id/productos/:id_prod").delete(async (req, res) => {
+  const idCart = req.params.id;
+  const product = await contenedor.getByID(req.params.id_prod);
+  const prodId = product.id;
+  prodId
+    ? res.send(await cartContainer.deleteProduct(idCart, prodId))
+    : res.send({ Error: "No existe este producto" });
+});
+
+app.get("*", function (req, res) {
+  res.send({ Error: -2, descripcion: `Ruta no implementada` });
+});
 
 app.use("/api", router);
