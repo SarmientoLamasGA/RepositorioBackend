@@ -136,7 +136,8 @@ router.route("/carrito/:id/productos/:id_prod").delete(async (req, res) => {
     : res.send({ Error: "No existe este producto" });
 });
 
-app.get("*", function (req, res) {
+router.get("*", (req, res) => {
+  res.status(404);
   res.send({ Error: -2, descripcion: `Ruta no implementada` });
 });
 
