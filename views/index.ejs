@@ -41,6 +41,15 @@
             placeholder="https://www.example.com/img"
             required
           />
+        <label for="Descripcion"
+          >Descripción
+          <input
+            type="text"
+            id="inputDescription"
+            name="description"
+            placeholder="Descripción ejemplo"
+            required
+          />
         </label>
         <button type="submit">Cargar producto</button>
       </form>
@@ -86,6 +95,7 @@
       const inputTitle = document.getElementById("inputTitle");
       const inputPrice = document.getElementById("inputPrice");
       const inputThumbnail = document.getElementById("inputThumbnail");
+      const inputDescription = document.getElementById("inputDescription");
       const tBody = document.getElementById("tBody");
 
       const addProduct = (e) => {
@@ -93,8 +103,10 @@
           title: inputTitle.value,
           price: inputPrice.value,
           thumbnail: inputThumbnail.value,
+          description: inputDescription.value,
         };
         socket.emit("newProd", prod);
+        console.log(prod)
         return false;
       };
 
@@ -128,12 +140,9 @@
       const chatBox = document.getElementById("chatBox");
 
       const addMessage = (e) => {
-        const d = new Date();
-        const timeFormat = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         const messageInfo = {
-          userEmail: email.value,
+          email: email.value,
           message: message.value,
-          time: timeFormat,
         };
         socket.emit("newMessage", messageInfo);
         return false;
@@ -146,10 +155,10 @@
             .map((message) => {
               return `<div class="messageBox">
                       <div class="left">
-                        <p class="author">${message.userEmail} dijo:</p> 
+                        <p class="author">${message.email} dijo:</p> 
                         <p class="msg">${message.message}</p>
                       </div>
-                      <p class="time">${message.time}</p>
+                      <p class="time">${message.sent}</p>
                     </div>`;
             })
             .join(" ");

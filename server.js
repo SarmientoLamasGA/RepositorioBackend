@@ -2,9 +2,9 @@ const express = require("express");
 const { Router } = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
-const Container = require("./container");
 const CartContainer = require("./cartContainer");
-const MessageDataBase = require("./messageDataBase");
+const ControlProductsDB = require("./controldb/controlProducts");
+const ControlMessage = require("./controldb/controlMessages");
 
 const app = express();
 const router = Router();
@@ -27,29 +27,28 @@ app.use("/styles", express.static(__dirname + "/styles"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const contenedor = new Container();
 const cartContainer = new CartContainer();
-const messageDataBase = new MessageDataBase();
+const productsDB = new ControlProductsDB();
+const messagesDB = new ControlMessage();
 
 //Websocket
 io.on("connection", async (socket) => {
   //Conexion
   console.log("Usuario conectado");
-  io.sockets.emit("requestChat", await messageDataBase.getChat()); // Ver comentario abajo
-  io.sockets.emit("requestProducts", await contenedor.getAll()); // Ambas líneas funcionan todo el tiempo desde la conexión
+  io.sockets.emit("requestChat", await messagesDB.getChat()); // Ver comentario abajo
+  io.sockets.emit("requestProducts", await productsDB.getAll()); // Ambas líneas funcionan todo el tiempo desde la conexión
 
-  //Server
   //Productos
-
   socket.on("newProd", async (prod) => {
-    await contenedor.save(prod);
-    io.sockets.emit("prodList", { data: await contenedor.getAll() }); //No sé si es útil ya que en connection hay una línea que actualiza constantemente (39)
+    await productsDB.save(prod);
+    io.sockets.emit("prodList", { data: await productsDB.getAll() }); //No sé si es útil ya que en connection hay una línea que actualiza constantemente (39)
   });
 
   //Chat
   socket.on("newMessage", async (message) => {
-    await messageDataBase.saveChat(message);
-    io.sockets.emit("messages", { data: await messageDataBase.getChat() }); //Idém línea 48
+    await messagesDB.saveChat(message);
+    io.sockets.emit("messages", { data: await messagesDB.getChat() }); //Idém línea 48
+    // });
   });
 });
 
@@ -64,11 +63,11 @@ router.route("/").get((req, res) => {
 router
   .route("/productos")
   .get(async (req, res) => {
-    res.render("index", { data: await contenedor.getAll() });
+    res.render("index", { data: await productsDB.getAll() });
   })
   .post(async (req, res) => {
     if (admin) {
-      await contenedor.save(req.body);
+      await productsDB.save(req.body);
       res.redirect("/");
     } else {
       return { error: "-1", descripcion: `POST a "/" no autorizado` };
@@ -79,23 +78,19 @@ router
   .route("/productos/:id?")
   .get(async (req, res) => {
     req.params.id
-      ? res.send(await contenedor.getByID(req.params.id)) //Se obtiene el ID especificado en caso de que exista
-      : res.send(await contenedor.getAll()); //Se obtiene todo el contenido
+      ? res.send(await productsDB.getById(req.params.id)) //Se obtiene el ID especificado en caso de que exista
+      : res.send(await productsDB.getAll()); //Se obtiene todo el contenido
   })
   .put(async (req, res) => {
     if (admin) {
-      const id = Number(req.params.id);
-      const title = String(req.body.title);
-      const price = Number(req.body.price);
-      const thumbnail = String(req.body.thumbnail);
-      res.send(await contenedor.update(req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista
+      res.send(await productsDB.update(req.params.id, req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista;
     } else {
       return { error: "-1", descripcion: `PUT a "/productos" no autorizado` };
     }
   })
   .delete(async (req, res) => {
     if (admin) {
-      res.send(await contenedor.deleteById(req.params.id)); //Se borra el objeto según el ID
+      res.send(await productsDB.deleteById(req.params.id)); //Se borra el objeto según el ID
     } else {
       return {
         error: "-1",
