@@ -1,12 +1,10 @@
 const ContainerMongo = require("../../containers/containerMongo");
+const cartSchema = require("../models/cart.model");
 
 class CartDaosMongo extends ContainerMongo {
   constructor() {
-    super(cart, {
-      productos: { type: [], required: true },
-      timestamps: { createdAt: "Creado el ", updatedAt: "Modificado el " },
-    });
+    super("cart", cartSchema);
   }
 }
 
-exports.module = CartDaosMongo;
+module.exports = CartDaosMongo;

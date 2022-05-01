@@ -1,16 +1,10 @@
 const ContainerMongo = require("../../containers/containerMongo");
+const prodSchema = require("../models/product.model");
 
 class ProductsDaosMongo extends ContainerMongo {
   constructor() {
-    super(products, {
-      title: { type: String, required: true },
-      price: { type: Number, required: true },
-      thumbnail: { type: String, required: true },
-      description: { type: String, required: true },
-      stock: { type: Number, required: true },
-      timestamps: { createdAt: "Creado el ", updatedAt: "Modificado el " },
-    });
+    super("products", prodSchema);
   }
 }
 
-exports.module = ProductsDaosMongo;
+module.exports = ProductsDaosMongo;

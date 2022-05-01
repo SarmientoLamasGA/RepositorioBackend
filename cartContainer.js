@@ -1,6 +1,4 @@
 const fs = require("fs");
-const { stringify } = require("querystring");
-
 class CartContainer {
   constructor() {
     this.url = "./cart.json";

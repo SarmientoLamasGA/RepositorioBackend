@@ -4,12 +4,12 @@ mongoose.connect(
   "mongodb+srv://GabrielSarmientoLamas:coder@coderhousebackend.pd26u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 );
 
-mongoose.connection.on("open", () => {
-  console.log("Base de datos Mongo");
-});
-mongoose.connection.on("error", () => {
-  console.log("error");
-});
+// mongoose.connection.on("open", () => {
+//   console.log("Base de datos Mongo");
+// });
+// mongoose.connection.on("error", () => {
+//   console.log("error");
+// });
 
 class ContainerMongo {
   constructor(collection, schema) {
@@ -27,8 +27,7 @@ class ContainerMongo {
 
   async getById(id) {
     try {
-      const doc = this.collection.findOne(id);
-      return doc;
+      return await this.collection.findOne({ _id: id });
     } catch (err) {
       console.log(err);
     }
@@ -43,10 +42,20 @@ class ContainerMongo {
     }
   }
 
+  async update(id, data) {
+    try {
+      console.log(id);
+      await this.collection.findOneAndUpdate({ _id: id }, data);
+      return { Info: "Updated" };
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async deleteAll() {
     try {
-      this.collection.deleteMany({});
-      return { Info: "Se ha vaciado la sección" };
+      await this.collection.deleteMany({});
+      return await this.collection.find();
     } catch (err) {
       console.log(err);
     }
@@ -54,8 +63,8 @@ class ContainerMongo {
 
   async deleteById(id) {
     try {
-      this.collection.findOneAndDelete({ id: id });
-      return { Info: `Se ha eliminado el objetdo con id ${id}` };
+      await this.collection.findOneAndDelete({ _id: id });
+      return await this.collection.find();
     } catch (err) {
       console.log(err);
     }

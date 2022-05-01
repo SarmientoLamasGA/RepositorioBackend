@@ -29,6 +29,9 @@ app.use("/api/productos", productosRouter);
 const cartRouter = require("./router/cartRouter");
 app.use("/api/carrito", cartRouter);
 
+const cartAndProductsRouter = require("./router/cartAndProductsRouter");
+app.use("/api/carrito/productos", cartAndProductsRouter);
+
 //Template
 app.set("view engine", "ejs");
 app.set("views", "./views");

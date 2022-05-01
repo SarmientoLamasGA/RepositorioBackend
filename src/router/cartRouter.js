@@ -6,46 +6,40 @@ const { Router } = require("express");
 
 //DB MongoDB
 const CartDaosMongo = require("../daos/cart/cartDaosMongo");
-const cartContainer = CartDaosMongo();
+const cartDB = new CartDaosMongo();
 
 //DB Firebase
 // const CartDaosFirebase = require("../daos/cart/cartDaosFirebase");
-// cartContainer = CartDaosFirebase();
+// cartDB = CartDaosFirebase();
 
 const router = new Router();
 
 const admin = true;
 
 // Carro de compras
-router.route("/").post(async (req, res) => {
-  res.send(await cartContainer.createCart());
-});
-
-router.route("/:id").delete(async (req, res) => {
-  req.params.id
-    ? res.send(await cartContainer.deleteCart(req.params.id))
-    : res.send({ info: "No existe este carrito" });
-});
-
 router
-  .route("/:id/productos")
+  .route("/")
   .get(async (req, res) => {
-    res.send(await cartContainer.getCart(req.params.id));
+    res.send(await cartDB.getAll());
   })
   .post(async (req, res) => {
-    //El agregado de productos se realiza por medio de ID!!
-    const id = req.body.id;
-    const product = await contenedor.getByID(id);
-    res.send(await cartContainer.addProduct(req.params.id, product));
+    res.send(await cartDB.save());
+  })
+  .delete(async (req, res) => {
+    res.send(await cartDB.deleteAll());
   });
 
-router.route("/:id/productos/:id_prod").delete(async (req, res) => {
-  const idCart = req.params.id;
-  const product = await contenedor.getByID(req.params.id_prod);
-  const prodId = product.id;
-  prodId
-    ? res.send(await cartContainer.deleteProduct(idCart, prodId))
-    : res.send({ Error: "No existe este producto" });
-});
+router
+  .route("/:id?")
+  .get(async (req, res) => {
+    req.params.id
+      ? res.send(await cartDB.getById(req.params.id))
+      : res.send({ info: "No existe este carrito" });
+  })
+  .delete(async (req, res) => {
+    req.params.id
+      ? res.send(await cartDB.deleteById(req.params.id))
+      : res.send({ info: "No existe este carrito" });
+  });
 
 module.exports = router;
