@@ -10,7 +10,7 @@ const cartDB = new CartDaosMongo();
 
 //DB Firebase
 // const CartDaosFirebase = require("../daos/cart/cartDaosFirebase");
-// cartDB = CartDaosFirebase();
+// const cartDB = new CartDaosFirebase();
 
 const router = new Router();
 

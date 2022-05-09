@@ -9,40 +9,45 @@ const productsDB = new ProductsDaosMongo();
 
 //DB Firebase
 // const CartDaosFirebase = require("../daos/cart/cartDaosFirebase");
-// cartContainer = CartDaosFirebase();
+// const cartDB = new CartDaosFirebase();
+
+// const ProductsDaosFirebase = require("../daos/products/productDaosFirebase");
+// const productsDB = new ProductsDaosFirebase();
 
 const router = new Router();
 
 router.route("/:idCart/:idProd").post(async (req, res) => {
-  const cart = await cartDB.getById(req.params.idCart);
-  const prod = await productsDB.getById(req.params.idProd);
+  try {
+    const cart = await cartDB.getById(req.params.idCart);
+    const idCart = req.params.idCart;
+    const prod = await productsDB.getById(req.params.idProd);
 
-  if (
-    cart._id.valueOf() === req.params.idCart &&
-    prod._id.valueOf() === req.params.idProd
-  ) {
-    prod.sent = Date.now();
-    await cart.productos.push(prod);
-    await cartDB.update(cart._id, cart);
-    res.send(await cartDB.getById(req.params.idCart));
-  } else {
-    res.send({ Info: "El elemento no existe" });
+    res.send(await cartDB.addToCart(cart, prod, idCart));
+  } catch (err) {
+    console.log(err);
   }
 });
 
 router.route("/:idCart/:idProd").delete(async (req, res) => {
   const cart = await cartDB.getById(req.params.idCart);
+  const idCart = req.params.idCart;
+  const idProd = req.params.idProd;
 
-  const prodIndex = cart.productos.findIndex(
-    (p) => p._id.valueOf() === req.params.idProd
-  );
+  //Mongo
 
-  if (prodIndex !== -1) {
-    cart.productos.splice(prodIndex, 1);
-    await cartDB.update(req.params.idCart, cart);
-    res.send(await cartDB.getById(req.params.idCart, cart));
-  } else {
-    res.send({ Info: `El elemento a eliminar no existe` });
-  }
+  // const prodIndex = cart.productos.findIndex(
+  //   (p) => p._id.valueOf() === req.params.idProd
+  // );
+
+  // if (prodIndex !== -1) {
+  //   cart.productos.splice(prodIndex, 1);
+  //   await cartDB.update(req.params.idCart, cart);
+  //   res.send(await cartDB.getById(req.params.idCart));
+  // } else {
+  //   res.send({ Info: `El elemento a eliminar no existe` });
+  // }
+
+  res.send(await cartDB.deleteFromCart(cart, idCart, idProd));
 });
+
 module.exports = router;

@@ -27,6 +27,8 @@ class ContainerMongo {
 
   async getById(id) {
     try {
+      console.log(id);
+      console.log(this.collection.findOne({ _id: id }));
       return await this.collection.findOne({ _id: id });
     } catch (err) {
       console.log(err);
@@ -65,6 +67,38 @@ class ContainerMongo {
     try {
       await this.collection.findOneAndDelete({ _id: id });
       return await this.collection.find();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async addToCart(cart, prod, idCart) {
+    try {
+      if (cart.id === idCart && prod.id === prod.id) {
+        prod.sent = Date.now();
+        await cart.productos.push(prod);
+        await this.update(cart._id, cart);
+        return await this.getById(idCart);
+      } else {
+        return { Info: "El elemento no existe" };
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async deleteFromCart(cart, idCart, idProd) {
+    try {
+      const prodIndex = cart.productos.findIndex(
+        (p) => p._id.valueOf() === idProd
+      );
+      if (prodIndex !== -1) {
+        cart.productos.splice(prodIndex, 1);
+        await this.update(idCart, cart);
+        return await this.getById(idCart);
+      } else {
+        return { Info: `El elemento a eliminar no existe` };
+      }
     } catch (err) {
       console.log(err);
     }

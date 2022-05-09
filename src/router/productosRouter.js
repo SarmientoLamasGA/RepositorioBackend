@@ -14,11 +14,14 @@ const router = new Router();
 // const ControlProductsDB = require("../../controldb/controlProducts");
 // const productsDB = new ControlProductsDB();
 
+//Mongo DB
+
 const ProductsDaosMongo = require("../daos/products/productsDaosMongo");
 const productsDB = new ProductsDaosMongo();
 
-// const ProductsDaosMongo = require("../daos/products/productsDaosMongo");
-// const productsDB = new ProductsDaosMongo();
+//Firebase DB
+// const ProductsFirebaseDaos = require("../daos/products/productDaosFirebase");
+// const productsDB = new ProductsFirebaseDaos();
 
 const admin = true;
 
@@ -47,7 +50,7 @@ const admin = true;
 router
   .route("/")
   .get(async (req, res) => {
-    res.render("index", { data: await productsDB.getAll() });
+    res.send(await productsDB.getAll());
   })
   .post(async (req, res) => {
     if (admin) {
