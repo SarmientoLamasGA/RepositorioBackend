@@ -8,7 +8,7 @@ const router = Router();
 const app = express();
 
 app.use(express.static(__dirname + `/public`));
-app.use("/styles", express.static(__dirname + "/styles"));
+// app.use("/styles", express.static(__dirname + "/styles"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +31,9 @@ app.use("/api/carrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
 app.use("/api/carrito/productos", cartAndProductsRouter);
+
+const productsTest = require("./router/productsTest");
+app.use("/api/productos-test", productsTest);
 
 //Template
 app.set("view engine", "ejs");
