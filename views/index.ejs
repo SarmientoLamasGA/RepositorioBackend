@@ -90,7 +90,7 @@
       <button><a href="/">Volver</a></button>
     </div>
     <script>
-      const socket = io();
+      const socket = io.connect();
       //Productos
       const inputTitle = document.getElementById("inputTitle");
       const inputPrice = document.getElementById("inputPrice");
@@ -106,7 +106,6 @@
           description: inputDescription.value,
         };
         socket.emit("newProd", prod);
-        console.log(prod)
         return false;
       };
 
@@ -144,6 +143,7 @@
           email: email.value,
           message: message.value,
         };
+        console.log(messageInfo)
         socket.emit("newMessage", messageInfo);
         return false;
       };

@@ -7,8 +7,7 @@ const router = new Router();
 
 router.route("/").get(async (req, res) => {
   try {
-    const list = await productsTest.createProdList();
-    res.json({ list: await productsTest.createProdList() });
+    res.json(await productsTest.createProdList());
   } catch (err) {
     console.log(err);
   }

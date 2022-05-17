@@ -1,21 +1,28 @@
 const { faker } = require("@faker-js/faker");
+const fs = require("fs");
 
 class testContainer {
   async createProdList() {
-    const list = [];
+    let str = "Nombre;Apellido;Email;Trabajo;Direccion\r\n";
     for (let i = 0; i <= 5; i++) {
-      const prod = {
-        id: i + 1,
-        title: faker.commerce.product(),
-        price: faker.commerce.price(),
-        thumbnai: faker.image.imageUrl(),
-        description: faker.commerce.productDescription(),
-        createdAt: faker.date.past(),
-        stock: faker.datatype.number({ min: 50, max: 10000 }),
-      };
-      list.push(prod);
+      str +=
+        faker.commerce.product() +
+        ";" +
+        faker.commerce.price() +
+        ";" +
+        faker.image.imageUrl() +
+        ";" +
+        faker.commerce.productDescription() +
+        ";" +
+        faker.date.past() +
+        ";" +
+        faker.datatype.number({ min: 50, max: 10000 }) +
+        "\r\n";
     }
-    return list;
+    await fs.promises.writeFile("./test.scv", str, (err) => {
+      if (err) console.log(err);
+    });
+    return await fs.promises.readFile("./test.scv", "utf-8");
   }
 }
 
