@@ -1,0 +1,10 @@
+<%- include("../partials/head.ejs") -%>
+<section>
+  <h1>Bienvenido <%= user %></h1>
+</section>
+<form action="" method="post">
+  <button name="submit" value="logout">Logout</button>
+</form>
+<button><a href="/api/user/privado">Admin</a></button>
+<div><p>La sesión expira a las <%= expires %></p></div>
+<%- include("../partials/footer.ejs") -%>
