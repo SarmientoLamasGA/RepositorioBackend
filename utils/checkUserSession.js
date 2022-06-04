@@ -1,6 +1,6 @@
 const checkUserSession = (req, res, next) => {
-  console.log(req.session.username);
-  if (req.session.username) {
+  const user = req.user;
+  if (user.username) {
     req.session.touch();
     next();
   } else {

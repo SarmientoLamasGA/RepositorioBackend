@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const auth = require("../../utils/auth");
 const checkUserSession = require("../../utils/checkUserSession");
+const passport = require("../../utils/passport.utils");
 
 const router = new Router();
 
@@ -11,46 +12,78 @@ router.route("/").get(async (req, res) => {
 router
   .route("/login")
   .get(async (req, res) => {
-    res.render("pages/login");
-  })
-  .post(async (req, res) => {
-    try {
-      const { user, password } = req.body;
-      if (user !== "pepe" || password !== "pepepass") {
-        return res.send("Error usuario");
-      }
-      req.session.password = password;
-      req.session.username = user;
-      req.session.admin = true;
-
+    if (req.isAuthenticated()) {
       res.redirect("/api/user/sesion");
-    } catch (err) {
-      console.log(err);
+    } else {
+      res.render("pages/login");
     }
-  });
+  })
+  .post(
+    passport.authenticate("login", {
+      failureRedirect: "/api/user/login-error",
+    }),
+    async (req, res) => {
+      try {
+        res.redirect("/api/user/sesion");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  );
+
+router.route("/login-error").get(async (req, res) => {
+  res.send("Error login");
+});
+
+router
+  .route("/signup")
+  .get(async (req, res) => {
+    res.render("pages/signup");
+  })
+  .post(
+    passport.authenticate("signup", {
+      failureRedirect: "/api/user/signup-error",
+    }),
+    async (req, res) => {
+      try {
+        const user = req.user;
+        if (!user) {
+          res.send("error registro");
+        } else {
+          res.send("Registrado");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  );
+
+router.route("/signup-error").get(async (req, res) => {
+  res.send("Error registro");
+});
 
 router
   .route("/sesion")
   .get(checkUserSession, async (req, res) => {
+    const user = req.user;
     const expires = req.session.cookie._expires.toTimeString();
     res.render("pages/userSession", {
-      user: req.session.username,
+      user: user.username,
       expires: expires,
     });
   })
   .post(async (req, res) => {
+    console.log("redirect");
     res.redirect("/api/user/logout");
   });
 
-router.route("/logout").get(checkUserSession, async (req, res) => {
+router.route("/logout").get(async (req, res) => {
   try {
-    const name = req.session.username;
-    console.log(req.session);
-    req.session.destroy((err) => {
-      if (!err) {
-        console.log(req.session);
-        res.render("pages/logout", { name: name });
-      } else res.send("error");
+    req.logout((err) => {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect("/api/user");
     });
   } catch (err) {
     console.log(err);

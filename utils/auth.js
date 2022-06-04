@@ -1,5 +1,5 @@
 const auth = (req, res, next) => {
-  if (req.session?.username === "pepe" && req.session?.admin) {
+  if (req.isAuthenticated()) {
     return next();
   }
   return res.status(401).send("error de autorización!");
