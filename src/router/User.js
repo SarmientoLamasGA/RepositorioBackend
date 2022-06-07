@@ -24,6 +24,7 @@ router
     }),
     async (req, res) => {
       try {
+        req.session.username = req.user.username;
         res.redirect("/api/user/sesion");
       } catch (err) {
         console.log(err);
@@ -32,7 +33,10 @@ router
   );
 
 router.route("/login-error").get(async (req, res) => {
-  res.send("Error login");
+  res.render("pages/info", {
+    error: true,
+    infoError: "Usuario o contraseña incorrectos",
+  });
 });
 
 router
@@ -48,9 +52,12 @@ router
       try {
         const user = req.user;
         if (!user) {
-          res.send("error registro");
+          res.render("pages/info", {
+            error: true,
+            infoError: "Error en el registro",
+          });
         } else {
-          res.send("Registrado");
+          res.render("pages/info", { error: false, info: "Registrado" });
         }
       } catch (err) {
         console.log(err);
@@ -59,7 +66,7 @@ router
   );
 
 router.route("/signup-error").get(async (req, res) => {
-  res.send("Error registro");
+  res.render("pages/info", { error: true, infoError: "El usuario ya existe" });
 });
 
 router

@@ -1,9 +1,11 @@
 const checkUserSession = (req, res, next) => {
-  const user = req.user;
-  if (user.username) {
+  req.session.username = req.user.username;
+  const user = req.session.username;
+  if (user) {
     req.session.touch();
     next();
-  } else {
+  }
+  if (!user) {
     res.redirect("/api/user");
   }
 };

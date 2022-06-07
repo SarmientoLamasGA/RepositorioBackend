@@ -2,12 +2,8 @@ const express = require("express");
 const { Router } = require("express");
 const session = require("express-session");
 const passport = require("passport");
-const { Strategy: LocalStrategy } = require("passport-local");
 const router = Router();
 const app = express();
-
-const usersDB = require("../utils/usersDb");
-const isValidPassword = require("../utils/isValidPassword");
 
 const MongoStore = require("connect-mongo");
 const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
@@ -36,7 +32,7 @@ app.use(
     secret: "secreto",
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 6000000 },
   })
 );
 app.use(passport.authenticate("session"));

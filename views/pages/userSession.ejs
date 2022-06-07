@@ -1,10 +1,18 @@
 <%- include("../partials/head.ejs") -%>
-<section>
+<section
+  class="container bg-info bg-gradient bg-opacity-25 border border-dark border-2 rounded-4 mt-5 p-3"
+>
   <h1>Bienvenido <%= user %></h1>
+  <form action="" method="post">
+    <button name="submit" value="logout" class="btn btn-outline-danger">
+      Cerrar Sesión
+    </button>
+    <button class="btn btn-outline-dark">
+      <a href="/api/user/privado" style="text-decoration: none">Pág privada</a>
+    </button>
+  </form>
+
+  <div><p>La sesión expira a las <%= expires %></p></div>
 </section>
-<form action="" method="post">
-  <button name="submit" value="logout">Logout</button>
-</form>
-<button><a href="/api/user/privado">Admin</a></button>
-<div><p>La sesión expira a las <%= expires %></p></div>
+
 <%- include("../partials/footer.ejs") -%>

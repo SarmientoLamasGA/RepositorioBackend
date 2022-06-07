@@ -1,15 +1,35 @@
 <%- include("../partials/head.ejs") -%>
-<section>
+<section
+  class="container bg-success bg-opacity-25 border border-dark border-2 rounded-4 mt-5 p-3"
+>
   <h1>Cree su usuario</h1>
   <form action="" method="post">
-    <label for="username"></label><br />
-    <input type="text" id="username" name="username" /><br />
-    <label for="password"></label><br />
-    <input type="text" id="password" name="password" /><br />
-    <input type="submit" value="submit" />
+    <label for="username">Registre su usuario</label><br />
+    <input
+      type="text"
+      id="username"
+      name="username"
+      class="form-control"
+    /><br />
+    <label for="email">Ingrese su email</label><br />
+    <input type="email" id="email" name="email" class="form-control" /><br />
+    <label for="password">Contraseña</label><br />
+    <input
+      type="text"
+      id="password"
+      name="password"
+      class="form-control"
+    /><br />
+    <input
+      type="submit"
+      value="Registrar Usuario"
+      class="btn btn-outline-primary"
+    />
   </form>
   <br />
-  <h2>Ingresar</h2>
-  <button><a href="/api/user/login">Logearse</a></button>
+  <h2 class="position-relative">¿Ya tenés cuenta?</h2>
+  <a href="/api/user/login" style="text-decoration: none"
+    ><button class="btn btn-outline-info">Ingresar</button></a
+  >
 </section>
 <%- include("../partials/footer.ejs") -%>

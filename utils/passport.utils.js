@@ -13,7 +13,8 @@ passport.use(
         console.log(`No se encontró el usuario ${username}`);
         return done(null, false);
       }
-      const validPassword = bcrypt.compare(password, user.password);
+      const validPassword = await bcrypt.compare(password, user.password);
+      console.log(validPassword);
       if (validPassword) {
         return done(null, user);
       } else {
@@ -39,6 +40,7 @@ passport.use(
 
         const newUser = {
           username: username,
+          email: req.body.email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null),
         };
 

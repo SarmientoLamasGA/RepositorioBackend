@@ -6,7 +6,7 @@ const prodSchema = new Schema({
   thumbnail: { type: String, required: true },
   description: { type: String, required: true },
   stock: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now() },
+  createdAt: { type: Date, default: new Date() },
 });
 
 module.exports = prodSchema;
