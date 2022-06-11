@@ -4,15 +4,12 @@ const session = require("express-session");
 const passport = require("passport");
 const router = Router();
 const app = express();
-
 const MongoStore = require("connect-mongo");
-const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
-
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
-
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+const config = require("../config/config");
 
 // const httpServer = new HttpServer(app);
 // const io = new IOServer(httpServer);
@@ -25,8 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://GabrielSarmientoLamas:coder@coderhousebackend.pd26u.mongodb.net/sessions?retryWrites=true&w=majority",
+      mongoUrl: config.MONGODB_SESSION,
       ttl: 60,
     }),
     secret: "secreto",
@@ -73,6 +69,9 @@ app.use("/api/cookies", cookies);
 
 const logIn = require("./router/User");
 app.use("/api/User", logIn);
+
+const info = require("./router/info");
+app.use("/api/info", info);
 
 //Template
 app.set("view engine", "ejs");

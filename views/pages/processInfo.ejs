@@ -1,0 +1,43 @@
+<%- include("../partials/head.ejs") -%>
+<body class="container-fluid mx-0 px-0">
+  <section class="container-fluid row justify-content-center bg-light mx-0">
+    <h1>Información del proceso</h1>
+
+    <div class="col-4 bg-primary border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">Puerto</h2>
+      <p class="text-center"><%= processInfo.entrada %></p>
+    </div>
+
+    <div class="col-4 offset-4 border border-dark bg-secondary py-3 my-3">
+      <h2 class="text-center fw-bold">Plataforma</h2>
+      <p class="text-center"><%= processInfo.plataforma %></p>
+    </div>
+
+    <div class="col-4 bg-success border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">Versión de Node</h2>
+      <p class="text-center"><%= processInfo.version %></p>
+    </div>
+
+    <div class="col-4 offset-4 bg-danger border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">Memoria Reservada</h2>
+      <p class="text-center"><%= processInfo.memoriaReservada %></p>
+    </div>
+
+    <div class="col-4 bg-warning border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">Directorio</h2>
+      <p class="text-center"><%= processInfo.directorio %></p>
+    </div>
+
+    <div class="col-4 offset-4 bg-info border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">Ruta de ejecución</h2>
+      <p class="text-center"><%= processInfo.rutaDeEjecucion %></p>
+    </div>
+
+    <div class="col-4 bg-transparent border border-dark py-3 my-3">
+      <h2 class="text-center fw-bold">ID del proceso</h2>
+      <p class="text-center"><%= processInfo.processId %></p>
+    </div>
+  </section>
+</body>
+
+<%- include("../partials/footer.ejs") -%>

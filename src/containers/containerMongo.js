@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
+const config = require("../../config/config");
 
-mongoose.connect(
-  "mongodb+srv://GabrielSarmientoLamas:coder@coderhousebackend.pd26u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-);
+mongoose.connect(config.MONGODB_CONTAINERMONGO);
 
 // mongoose.connection.on("open", () => {
 //   console.log("Base de datos Mongo");
