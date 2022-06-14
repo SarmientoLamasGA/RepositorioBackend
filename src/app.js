@@ -73,6 +73,9 @@ app.use("/api/User", logIn);
 const info = require("./router/info");
 app.use("/api/info", info);
 
+const random = require("./router/random");
+app.use("/api/random", random);
+
 //Template
 app.set("view engine", "ejs");
 app.set("views", "./views");
