@@ -1,0 +1,33 @@
+Comandos Node
+Fork:
+    node server.js --port 8080 --mode fork
+
+Cluster
+    node server.js --port 8080 --mode cluster
+
+Comandos Forever
+Fork:
+    forever start server.js --port 8080 --mode fork
+Fork con watch:
+    forever --watch start server.js --port 8080 --mode fork
+
+
+Cluster:
+    forever start server.js --port 8080 --mode cluster
+Cluster con watch:
+    forever --watch start server.js --port 8080 --mode cluster
+
+
+Listar por forever
+    forever list
+
+Comandos PM2
+Fork:
+    pm2 start server.js --name="server fork" -- --port 8080
+Fork con watch:
+    pm2 start server.js --name="server fork" --watch -- --port 8080
+
+Cluster:
+    pm2 start server.js --name="server cluster" -i max -- --port 8080
+Cluster con watch:
+    pm2 start server.js --name="server cluster" --watch  -i max -- --port 8080

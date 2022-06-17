@@ -14,8 +14,7 @@ const config = require("../config/config");
 // const httpServer = new HttpServer(app);
 // const io = new IOServer(httpServer);
 
-app.use(express.static(__dirname + `/public`));
-// app.use("/styles", express.static(__dirname + "/styles"));
+// app.use(express.static(__dirname + `/public`));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

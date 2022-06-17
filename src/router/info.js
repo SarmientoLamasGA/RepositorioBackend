@@ -1,5 +1,6 @@
 const { Router } = require("express");
-const port = require("../../utils/minimist.port");
+const port = require("../../utils/minimist.options");
+const cpus = require("os").cpus();
 
 const router = new Router();
 
@@ -19,6 +20,8 @@ router.route("/").get((req, res) => {
     directorio: process.cwd(),
     rutaDeEjecucion: process.execPath,
     processId: process.pid,
+    cpuTotal: cpus.length,
+    cpuInfo: cpus,
   };
 
   res.render("pages/processInfo", { processInfo });
