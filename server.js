@@ -18,10 +18,8 @@ if (options.mode == "cluster") {
     }
   }
   if (cluster.isWorker) {
-    httpServer.listen(options.port + cluster.worker.id, () => {
-      console.log(
-        `Servidor funcionando en puerto ${options.port + cluster.worker.id}`
-      );
+    httpServer.listen(options.port, () => {
+      console.log(`Servidor funcionando en puerto ${options.port}`);
     });
 
     io.on("connection", async (socket) => {
