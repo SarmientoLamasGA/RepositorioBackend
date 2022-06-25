@@ -1,6 +1,7 @@
 const express = require("express");
 const { Router } = require("express");
 const session = require("express-session");
+const compression = require("compression");
 const passport = require("passport");
 const router = Router();
 const app = express();
@@ -10,6 +11,7 @@ const { Server: IOServer } = require("socket.io");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const config = require("../config/config");
+const logger = require("../utils/logger.warn");
 
 // const httpServer = new HttpServer(app);
 // const io = new IOServer(httpServer);
@@ -33,7 +35,7 @@ app.use(
 app.use(passport.authenticate("session"));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(compression());
 //Root
 io.on("connection", async () => {
   console.log("Socket iniciado");
@@ -41,11 +43,6 @@ io.on("connection", async () => {
 
 router.route("/").get((req, res) => {
   res.sendFile(__dirname + "/public/index.html");
-});
-
-router.get("*", (req, res) => {
-  res.status(404);
-  res.send({ Error: -2, descripcion: `Ruta no implementada` });
 });
 
 const productosRouter = require("./router/productosRouter");
@@ -74,6 +71,9 @@ app.use("/api/info", info);
 
 const random = require("./router/random");
 app.use("/api/random", random);
+
+const rutaError = require("./router/routeWarn");
+app.use("*", rutaError);
 
 //Template
 app.set("view engine", "ejs");

@@ -26,9 +26,12 @@ class ContainerMongo {
 
   async getById(id) {
     try {
-      console.log(id);
-      console.log(this.collection.findOne({ _id: id }));
-      return await this.collection.findOne({ _id: id });
+      const prodExist = await this.collection.findOne({ _id: id });
+      if (!!prodExist) {
+        return prodExist;
+      } else {
+        return !!prodExist;
+      }
     } catch (err) {
       console.log(err);
     }

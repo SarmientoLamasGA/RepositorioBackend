@@ -1,10 +1,11 @@
 const { Router } = require("express");
 const port = require("../../utils/minimist.options");
+const logInfo = require("../../utils/logger.info");
 const cpus = require("os").cpus();
 
 const router = new Router();
 
-router.route("/").get((req, res) => {
+router.route("/").get(logInfo, (req, res) => {
   const inputPort = () => {
     if (port == 8080) {
       return `No se ingresó puerto, usando predeterminado(${port})`;

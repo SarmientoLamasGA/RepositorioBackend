@@ -2,6 +2,7 @@ const { Router } = require("express");
 const auth = require("../../utils/auth");
 const checkUserSession = require("../../utils/checkUserSession");
 const passport = require("../../utils/passport.utils");
+const logInfo = require("../../utils/logger.info");
 
 const router = new Router();
 
@@ -11,7 +12,7 @@ router.route("/").get(async (req, res) => {
 
 router
   .route("/login")
-  .get(async (req, res) => {
+  .get(logInfo, async (req, res) => {
     if (req.isAuthenticated()) {
       res.redirect("/api/user/sesion");
     } else {
@@ -41,7 +42,7 @@ router.route("/login-error").get(async (req, res) => {
 
 router
   .route("/signup")
-  .get(async (req, res) => {
+  .get(logInfo, async (req, res) => {
     res.render("pages/signup");
   })
   .post(
@@ -74,7 +75,7 @@ router.route("/signup-error").get(async (req, res) => {
 
 router
   .route("/sesion")
-  .get(checkUserSession, async (req, res) => {
+  .get(logInfo, checkUserSession, async (req, res) => {
     const user = req.user;
     const expires = req.session.cookie._expires.toTimeString();
     res.render("pages/userSession", {
@@ -87,7 +88,7 @@ router
     res.redirect("/api/user/logout");
   });
 
-router.route("/logout").get(async (req, res) => {
+router.route("/logout").get(logInfo, async (req, res) => {
   try {
     req.logout((err) => {
       if (err) {
@@ -100,12 +101,14 @@ router.route("/logout").get(async (req, res) => {
   }
 });
 
-router.route("/privado").get(checkUserSession, auth, async (req, res) => {
-  try {
-    res.send("Este mensaje solo es visible si sos admin");
-  } catch (err) {
-    console.log(err);
-  }
-});
+router
+  .route("/privado")
+  .get(logInfo, checkUserSession, auth, async (req, res) => {
+    try {
+      res.send("Este mensaje solo es visible si sos admin");
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
 module.exports = router;

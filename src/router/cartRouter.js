@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const logInfo = require("../../utils/logger.info");
 
 //DB archivos
 // const CartContainer = require("../../cartContainer");
@@ -19,7 +20,7 @@ const admin = true;
 // Carro de compras
 router
   .route("/")
-  .get(async (req, res) => {
+  .get(logInfo, async (req, res) => {
     res.send(await cartDB.getAll());
   })
   .post(async (req, res) => {
@@ -31,7 +32,7 @@ router
 
 router
   .route("/:id?")
-  .get(async (req, res) => {
+  .get(logInfo, async (req, res) => {
     req.params.id
       ? res.send(await cartDB.getById(req.params.id))
       : res.send({ info: "No existe este carrito" });

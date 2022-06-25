@@ -2,6 +2,8 @@ const { Router } = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const express = require("express");
+const logInfo = require("../../utils/logger.info");
+const logError = require("../../utils/logger.error");
 
 const httpServer = new HttpServer(express);
 const io = new IOServer(httpServer);
@@ -49,9 +51,9 @@ io.on("connection", async (socket) => {
 //Listado de productos
 router
   .route("/")
-  .get(async (req, res) => {
-    res.render("index", { data: await productsDB.getAll() });
-  })
+  // .get(logInfo, async (req, res) => {
+  //   res.render("index", { data: await productsDB.getAll() });
+  // })
   .post(async (req, res) => {
     if (admin) {
       res.send(await productsDB.save(req.body));
@@ -72,10 +74,18 @@ router
 
 router
   .route("/:id?")
-  .get(async (req, res) => {
-    req.params.id
-      ? res.send(await productsDB.getById(req.params.id)) //Se obtiene el ID especificado en caso de que exista
-      : res.send(await productsDB.getAll()); //Se obtiene todo el contenido
+  .get(logInfo, async (req, res) => {
+    if (req.params.id) {
+      const prod = await productsDB.getById(req.params.id);
+      if (prod) {
+        res.send(prod);
+      } else {
+        logError(req.params.id);
+        res.send({ Error: "Producto inexistente" });
+      }
+    } else {
+      console.log(await productsDB.getAll()); //Se obtiene todo el contenido
+    }
   })
   .put(async (req, res) => {
     if (admin) {
