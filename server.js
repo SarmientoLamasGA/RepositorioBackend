@@ -18,7 +18,7 @@ if (options.mode == "cluster") {
     }
   }
   if (cluster.isWorker) {
-    httpServer.listen(options.port, () => {
+    httpServer.listen(process.env.PORT || options.port, () => {
       console.log(`Servidor funcionando en puerto ${options.port}`);
     });
 
@@ -27,7 +27,7 @@ if (options.mode == "cluster") {
     });
   }
 } else {
-  httpServer.listen(options.port, () => {
+  httpServer.listen(process.env.PORT || options.port, () => {
     console.log(`Servidor funcionando en puerto ${options.port}`);
   });
 
