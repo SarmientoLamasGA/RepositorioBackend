@@ -14,6 +14,6 @@ process.on("message", () => {
       valores[num] = 1;
     }
   }
-  // process.send(valores);
+  process.send(valores);
   return valores;
 });

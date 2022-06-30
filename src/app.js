@@ -11,12 +11,11 @@ const { Server: IOServer } = require("socket.io");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const config = require("../config/config");
-const logger = require("../utils/logger.warn");
 
 // const httpServer = new HttpServer(app);
 // const io = new IOServer(httpServer);
 
-// app.use(express.static(__dirname + `/public`));
+app.use(express.static(__dirname + `/public`));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,9 +40,8 @@ io.on("connection", async () => {
   console.log("Socket iniciado");
 });
 
-router.route("/").get((req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+const root = require("./router/root");
+app.use("/", root);
 
 const productosRouter = require("./router/productosRouter");
 app.use("/api/productos", productosRouter);

@@ -4,72 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles/css/styles.css" />
     <script src="/socket.io/socket.io.js"></script>
     <title>Inicio</title>
   </head>
   <body>
     <section class="formSection">
-      <h1>Inicio</h1>
-      <form action="api/productos" method="post">
-        <label for="Producto"
-          >Producto
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Example"
-            required
-          />
-        </label>
-        <label for="Precio"
-          >Precio
-          <input
-            type="number"
-            id="price"
-            name="price"
-            placeholder="$####"
-            required
-          />
-        </label>
-        <label for="Miniatura"
-          >Imagen
-          <input
-            type="text"
-            id="thumbnail"
-            name="thumbnail"
-            placeholder="https://www.example.com/img"
-            required
-          />
-        </label>
-        <label for="Descripción"
-          >Descripción
-          <input
-            type="text"
-            id="description"
-            name="description"
-            placeholder="Describa el producto"
-            required
-          />
-        </label>
-        <label for="Stock"
-          >Stock
-          <input
-            type="number"
-            id="stock"
-            name="stock"
-            placeholder="####"
-            required
-          />
-        </label>
-        <button type="submit">Cargar producto</button>
-      </form>
-      <div>
-        <p>Lista de productos</p>
-        <button>
-          <a href="/api/productos"><p>Ir a lista</p></a>
-        </button>
-      </div>
+      <h1>Bienvenido</h1>
+      <ul>
+        <p>Rutas importates</p>
+        <li><a href="/api/info">Info</a></li>
+        <li><a href="/api/user">Usuario</a></li>
+        <li><a href="/api/random/?cant=">Randomizador</a></li>
+      </ul>
     </section>
   </body>
 </html>

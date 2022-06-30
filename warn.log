@@ -48,3 +48,15 @@
 [2022-06-23T22:47:14.571] [ERROR] all - Error al acceder a un producto inexistente. ID: 626f13c15cbf724f335b8794
 [2022-06-23T22:58:08.829] [WARN] fileWarn - Acceso a página inexistente: /api/productossss
 [2022-06-24T22:13:21.515] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:24:08.521] [WARN] fileWarn - Acceso a página inexistente: 
+[2022-06-30T19:24:08.695] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:32:49.407] [WARN] fileWarn - Acceso a página inexistente: /styles/css/styles.css
+[2022-06-30T19:32:49.510] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:33:11.172] [WARN] fileWarn - Acceso a página inexistente: /styles/css/styles.css
+[2022-06-30T19:33:11.260] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:34:03.872] [WARN] fileWarn - Acceso a página inexistente: /styles/css/styles.css
+[2022-06-30T19:34:03.962] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:34:25.816] [WARN] fileWarn - Acceso a página inexistente: /styles/css/styles.css
+[2022-06-30T19:34:25.897] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-06-30T19:34:46.848] [WARN] fileWarn - Acceso a página inexistente: /styles/css/styles.css
+[2022-06-30T19:35:43.796] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
