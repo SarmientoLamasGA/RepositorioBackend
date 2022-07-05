@@ -1,0 +1,25 @@
+<%- include("../partials/head.ejs") -%>
+<section class="mailContainer">
+  <form action="" method="post">
+    <label for="remitente">Remintente</label><br />
+    <input type="email" name="from" id="from" required /> <br />
+    <p>Se enviará respuesta a esta casilla de correo</p>
+
+    <label for="asunto">Asunto</label> <br />
+    <input type="text" name="subject" id="subject" /> <br />
+
+    <label for="mensaje">Ingrese su mensaje</label> <br />
+    <textarea
+      name="mail"
+      id="mail"
+      cols="30"
+      rows="10"
+      placeholder="Ingrese su mensaje"
+      required
+    ></textarea
+    ><br />
+    <input type="submit" value="Enviar Mail" />
+  </form>
+</section>
+<form action="" method="post"></form>
+<%- include("../partials/footer.ejs") -%>

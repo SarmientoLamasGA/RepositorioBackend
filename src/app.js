@@ -70,6 +70,10 @@ app.use("/api/info", info);
 const random = require("./router/random");
 app.use("/api/random", random);
 
+const contactMail = require("./router/contactMail");
+app.use("/api/contacto", contactMail);
+
+//Rutas inexistentes, este siempre tiene que ir último
 const rutaError = require("./router/routeWarn");
 app.use("*", rutaError);
 
