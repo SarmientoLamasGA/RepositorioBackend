@@ -1,5 +1,14 @@
 const { Router } = require("express");
-const transporter = require("../../utils/nodemailer.transporter");
+const { createTransport } = require("nodemailer");
+const MAIL = "ford.zemlak58@ethereal.email";
+const transporter = createTransport({
+  host: "smtp.ethereal.email",
+  port: 587,
+  auth: {
+    user: MAIL,
+    pass: "QZ6DrYP2GnUfuAztYV",
+  },
+});
 
 const router = new Router();
 
@@ -22,15 +31,5 @@ router
       console.log(error);
     }
   });
-
-router.route("/enviar").get(async (req, res) => {
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log(info);
-    res.send("enviado");
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 module.exports = router;
