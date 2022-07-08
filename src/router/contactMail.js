@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const router = new Router();
+
 const { createTransport } = require("nodemailer");
 const MAIL = "ford.zemlak58@ethereal.email";
 const transporter = createTransport({
@@ -9,8 +11,6 @@ const transporter = createTransport({
     pass: "QZ6DrYP2GnUfuAztYV",
   },
 });
-
-const router = new Router();
 
 router
   .route("/")
