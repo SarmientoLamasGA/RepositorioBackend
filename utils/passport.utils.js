@@ -38,10 +38,18 @@ passport.use(
           return done(null, false);
         }
 
+        const address = `${req.body.country}, ${req.body.estate}, ${req.body.city}, ${req.body.address}`;
+
         const newUser = {
           username: username,
           email: req.body.email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null),
+          name: req.body.name,
+          lastName: req.body.lastName,
+          address: req.body.address,
+          phone: req.body.phone,
+          address: address,
+          profilePicture: req.body.profilePicture,
         };
 
         const user = await userMongo.collection.insertMany(newUser);

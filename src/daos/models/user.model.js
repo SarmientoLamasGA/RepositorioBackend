@@ -16,6 +16,29 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  address: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  profilePicture: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: new Date(),
