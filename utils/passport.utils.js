@@ -4,6 +4,26 @@ const { Strategy: LocalStrategy } = require("passport-local");
 const DaoUserMongo = require("../src/daos/users/usersDaoMongo");
 const userMongo = new DaoUserMongo();
 
+const genId = async () => {
+  try {
+    const findId = await userMongo.collection
+      .findOne()
+      .sort({ UId: -1 })
+      .limit(1);
+    let id;
+
+    if (!findId) {
+      id = 1;
+    } else {
+      id = findId.UId + 1;
+    }
+
+    return id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 passport.use(
   "login",
   new LocalStrategy(async (username, password, done) => {
@@ -37,6 +57,7 @@ passport.use(
           console.log("El usuario ya existe");
           return done(null, false);
         }
+        const id = await genId();
 
         const address = `${req.body.country}, ${req.body.estate}, ${req.body.city}, ${req.body.address}`;
 
@@ -44,6 +65,7 @@ passport.use(
           username: username,
           email: req.body.email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null),
+          UId: id,
           name: req.body.name,
           lastName: req.body.lastName,
           address: req.body.address,
