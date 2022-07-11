@@ -51,15 +51,14 @@ io.on("connection", async (socket) => {
 //Listado de productos
 router
   .route("/")
-  // .get(logInfo, async (req, res) => {
-  //   res.render("index", { data: await productsDB.getAll() });
-  // })
+  .get(logInfo, async (req, res) => {
+    res.render("pages/shop", { data: await productsDB.getAll() });
+  })
   .post(async (req, res) => {
-    if (admin) {
-      res.send(await productsDB.save(req.body));
-    } else {
-      return { error: "-1", descripcion: `POST a "/" no autorizado` };
-    }
+    console.log(req.body);
+    console.log(req.query);
+    console.log(req.params);
+    res.send("subido");
   })
   .delete(async (req, res) => {
     if (admin) {
@@ -69,6 +68,27 @@ router
         error: "-1",
         descripcion: `DELETE a "/productos" no autorizado`,
       };
+    }
+  });
+
+router
+  .route("/cargar-productos")
+  .get(async (req, res) => {
+    res.render("pages/loadProducts", { data: await productsDB.getAll() });
+  })
+  .post(async (req, res) => {
+    try {
+      // if (req.body) {
+      // res.send(req.body);
+      res.render("pages/loadProducts", {
+        data: await productsDB.getAll(),
+        saveData: await productsDB.save(req.body),
+      });
+      // } else {
+      //   return { error: "-1", descripcion: `POST a "/" no autorizado` };
+      // }
+    } catch (error) {
+      console.log(error);
     }
   });
 

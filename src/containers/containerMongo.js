@@ -10,6 +10,23 @@ mongoose.connect(config.MONGODB_CONTAINERMONGO);
 //   console.log("error");
 // });
 
+const genId = async (db) => {
+  try {
+    const findId = await db.findOne().sort({ UId: -1 }).limit(1);
+    let id;
+
+    if (!findId) {
+      id = 1;
+    } else {
+      id = findId.UId + 1;
+    }
+
+    return id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 class ContainerMongo {
   constructor(collection, schema) {
     this.collection = mongoose.model(collection, schema);
@@ -37,9 +54,17 @@ class ContainerMongo {
     }
   }
 
-  async save(obj) {
+  async save({ title, price, thumbnail, description }) {
     try {
-      const newProd = this.collection.create(obj);
+      const id = await genId(this.collection);
+      const newProd = this.collection.create({
+        UId: id,
+        title,
+        price,
+        thumbnail,
+        description,
+        stock: 500,
+      });
       return newProd;
     } catch (err) {
       console.log(err);

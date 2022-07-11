@@ -1,0 +1,62 @@
+<%- include("../partials/head.ejs") -%>
+
+    <section class="formSection">
+      <h1>Lista de productos</h1>
+      <form method="post">
+        <label for="Producto"
+          >Producto
+          <input
+            type="text"
+            id="inputTitle"
+            name="title"
+            placeholder="Example"
+            required
+          />
+        </label>
+        <label for="Precio"
+          >Precio
+          <input    
+            type="number"
+            id="inputPrice"
+            name="price"
+            placeholder="$####"
+            required
+          />
+        </label>
+        <label for="Miniatura"
+          >Imagen
+          <input
+            type="text"
+            id="inputThumbnail"
+            name="thumbnail"
+            placeholder="https://www.example.com/img"
+            required
+          />
+        <label for="Descripcion"
+          >Descripción
+          <input
+            type="text"
+            id="inputDescription"
+            name="description"
+            placeholder="Descripción ejemplo"
+            required
+          />
+        </label>
+        <button type="submit">Cargar producto</button>
+      </form>
+    </section>
+    <section class="prodList">
+      <table id="prodTable">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Imagen</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        <tbody id="tBody">
+          <%- include("../partials/prodList"); %>
+        </tbody>
+      </table>
+
+    <%- include("../partials/footer.ejs") -%>

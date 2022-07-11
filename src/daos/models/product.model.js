@@ -1,6 +1,7 @@
 const { Schema } = require("mongoose");
 
 const prodSchema = new Schema({
+  UId: { type: Number, required: true },
   title: { type: String, required: true },
   price: { type: Number, required: true },
   thumbnail: { type: String, required: true },
