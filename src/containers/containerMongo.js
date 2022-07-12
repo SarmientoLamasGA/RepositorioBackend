@@ -43,7 +43,7 @@ class ContainerMongo {
 
   async getById(id) {
     try {
-      const prodExist = await this.collection.findOne({ _id: id });
+      const prodExist = await this.collection.findOne({ UId: id });
       if (!!prodExist) {
         return prodExist;
       } else {
@@ -74,7 +74,7 @@ class ContainerMongo {
   async update(id, data) {
     try {
       console.log(id);
-      await this.collection.findOneAndUpdate({ _id: id }, data);
+      await this.collection.findOneAndUpdate({ UId: id }, data);
       return { Info: "Updated" };
     } catch (err) {
       console.log(err);
@@ -92,7 +92,7 @@ class ContainerMongo {
 
   async deleteById(id) {
     try {
-      await this.collection.findOneAndDelete({ _id: id });
+      await this.collection.findOneAndDelete({ UId: id });
       return await this.collection.find();
     } catch (err) {
       console.log(err);
@@ -101,10 +101,10 @@ class ContainerMongo {
 
   async addToCart(cart, prod, idCart) {
     try {
-      if (cart.id === idCart && prod.id === prod.id) {
+      if (cart.UId === idCart && prod.UId === prod.id) {
         prod.sent = Date.now();
         await cart.productos.push(prod);
-        await this.update(cart._id, cart);
+        await this.update(cart.UId, cart);
         return await this.getById(idCart);
       } else {
         return { Info: "El elemento no existe" };

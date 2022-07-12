@@ -55,9 +55,6 @@ router
     res.render("pages/shop", { data: await productsDB.getAll() });
   })
   .post(async (req, res) => {
-    console.log(req.body);
-    console.log(req.query);
-    console.log(req.params);
     res.send("subido");
   })
   .delete(async (req, res) => {
