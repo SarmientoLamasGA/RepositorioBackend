@@ -15,16 +15,17 @@ const cartDB = new CartDaosMongo();
 
 const router = new Router();
 
-const admin = true;
-
 // Carro de compras
 router
   .route("/")
   .get(logInfo, async (req, res) => {
-    res.send(await cartDB.getAll());
+    res.render("pages/allCarts", { data: await cartDB.getAll() });
   })
   .post(async (req, res) => {
-    res.send(await cartDB.save());
+    res.render("pages/allCarts", {
+      data: await cartDB.getAll(),
+      saveData: await cartDB.save(),
+    });
   })
   .delete(async (req, res) => {
     res.send(await cartDB.deleteAll());
@@ -34,12 +35,15 @@ router
   .route("/:id?")
   .get(logInfo, async (req, res) => {
     req.params.id
-      ? res.send(await cartDB.getById(req.params.id))
+      ? res.render("pages/cart", { data: await cartDB.getById(req.params.id) })
       : res.send({ info: "No existe este carrito" });
   })
   .delete(async (req, res) => {
-    req.params.id
-      ? res.send(await cartDB.deleteById(req.params.id))
+    req.params.body
+      ? res.render("pages/cart", {
+          delData: await cartDB.deleteById(req.params.id),
+          data: await cartDB.getById(req.params.id),
+        })
       : res.send({ info: "No existe este carrito" });
   });
 

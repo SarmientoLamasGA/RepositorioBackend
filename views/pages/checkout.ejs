@@ -1,0 +1,31 @@
+<%- include("../partials/head.ejs") -%>
+<section>
+  <h1>Confirmar compra</h1>
+  <div>
+    <h2>Su compra</h2>
+    <ul>
+      <% data.productos.forEach(x => {%>
+      <li>
+        <div>
+          <h3><%= x.title %></h3>
+          <p><%= x.price %></p>
+        </div>
+      </li>
+      <%}) %>
+      <h3>El total es de: <%= totalPrice %></h3>
+    </ul>
+    <form action="" method="post">
+      <h2>Datos de contacto</h2>
+      <label for="name">Nombre</label>
+      <input type="text" name="name" id="name" />
+      <label for="lastname">Apellido</label>
+      <input type="text" name="lastname" id="lastname" />
+      <label for="tel">Telefono</label>
+      <input type="tel" name="phone" id="phone" />
+      <label for="email">Correo electrónico</label>
+      <input type="email" name="email" id="email" />
+      <button type="submit">Confirmar compra</button>
+    </form>
+  </div>
+</section>
+<%- include("../partials/footer.ejs") -%>

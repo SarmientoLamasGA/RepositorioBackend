@@ -50,7 +50,7 @@ const cartRouter = require("./router/cartRouter");
 app.use("/api/carrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
-app.use("/api/carrito/productos", cartAndProductsRouter);
+app.use("/api/micarrito/productos", cartAndProductsRouter);
 
 const productsTest = require("./router/productsTest");
 app.use("/api/productos-test", productsTest, (req, res, next) => {
@@ -69,6 +69,9 @@ app.use("/api/info", info);
 
 const random = require("./router/random");
 app.use("/api/random", random);
+
+const shop = require("./router/shop");
+app.use("/api/tienda", shop);
 
 const contactMail = require("./router/contactMail");
 app.use("/api/contacto", contactMail);

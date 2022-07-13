@@ -1,0 +1,31 @@
+<%- include("../partials/head.ejs") -%> <% if(data) { %>
+<section class="myCart"><h1>Carrito ID: <%= data.UId %></h1></section>
+<ul>
+  <p>Productos</p>
+
+  <% data.productos.forEach(x => {%>
+  <li>
+    <div>
+      <h3><%= x.title %></h3>
+      <p><%= x.price %></p>
+      <a href="../micarrito/productos/<%= data.UId %>/delete/<%= x.UId %> ">
+        Borrar</a
+      >
+    </div>
+  </li>
+</ul>
+<%}) %>
+<h2>
+  <button>
+    <a href="../micarrito/productos/<%= data.UId %>/checkout"
+      >Continuar con la compra</a
+    >
+  </button>
+</h2>
+<% }else {%>
+<section class="myCart">
+  <h1>No existe ningún carrito.</h1>
+  <p><a href="../carrito">Para crear carrito ir a esta sección</a></p>
+  <% } %>
+</section>
+<%- include("../partials/footer.ejs") -%>

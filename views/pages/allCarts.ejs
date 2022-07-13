@@ -1,0 +1,18 @@
+<%- include("../partials/head.ejs") -%>
+<section class="allCarts">
+  <h1>Crear carrito</h1>
+  <form action="" method="post"><button>Crear un carrito</button></form>
+  <h1>Carritos</h1>
+  <% if (data.length > 0) { %>
+  <ul>
+    Carritos existentes: <%= data.length %>
+  </ul>
+  <% data.forEach(x => { %>
+  <li>Carrito ID: <%= x.UId %></li>
+  <button><a href="../carrito/<%= x.UId %> ">Ir al carrito</a></button>
+  <% }) %> <% } else{ %>
+  <p>No existen carritos aún</p>
+  <% } %>
+</section>
+
+<%- include("../partials/footer.ejs") -%>

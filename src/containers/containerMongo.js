@@ -54,18 +54,25 @@ class ContainerMongo {
     }
   }
 
-  async save({ title, price, thumbnail, description }) {
+  async save(obj) {
     try {
       const id = await genId(this.collection);
-      const newProd = this.collection.create({
-        UId: id,
-        title,
-        price,
-        thumbnail,
-        description,
-        stock: 500,
-      });
-      return newProd;
+      if (obj) {
+        const newProd = await this.collection.create({
+          UId: id,
+          title: obj.title,
+          price: obj.price,
+          thumbnail: obj.thumbnail,
+          description: obj.description,
+          stock: 500,
+        });
+        return newProd;
+      } else {
+        const newProd = await this.collection.create({
+          UId: id,
+        });
+        return newProd;
+      }
     } catch (err) {
       console.log(err);
     }
@@ -73,7 +80,6 @@ class ContainerMongo {
 
   async update(id, data) {
     try {
-      console.log(id);
       await this.collection.findOneAndUpdate({ UId: id }, data);
       return { Info: "Updated" };
     } catch (err) {
@@ -99,16 +105,11 @@ class ContainerMongo {
     }
   }
 
-  async addToCart(cart, prod, idCart) {
+  async addToCart(cart, selectedProd) {
     try {
-      if (cart.UId === idCart && prod.UId === prod.id) {
-        prod.sent = Date.now();
-        await cart.productos.push(prod);
-        await this.update(cart.UId, cart);
-        return await this.getById(idCart);
-      } else {
-        return { Info: "El elemento no existe" };
-      }
+      selectedProd.sent = Number(Date.now());
+      await cart.productos.push(selectedProd);
+      this.update(cart.UId, cart);
     } catch (err) {
       console.log(err);
     }
@@ -117,7 +118,7 @@ class ContainerMongo {
   async deleteFromCart(cart, idCart, idProd) {
     try {
       const prodIndex = cart.productos.findIndex(
-        (p) => p._id.valueOf() === idProd
+        (p) => p.Uid.valueOf() === idProd
       );
       if (prodIndex !== -1) {
         cart.productos.splice(prodIndex, 1);
