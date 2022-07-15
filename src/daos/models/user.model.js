@@ -48,6 +48,12 @@ const UserSchema = new Schema({
   },
   profilePicture: {
     type: String,
+    default:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm2xwmXA30O0RMJuturWCgjsMvZDlg7Jzim93BIJ9MgL1PWJMlFwGxCCFpOQUpx5EflMg&usqp=CAU",
+  },
+  admin: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,

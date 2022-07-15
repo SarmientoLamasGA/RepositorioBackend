@@ -72,8 +72,6 @@ passport.use(
           estate: req.body.estate,
           city: req.body.city,
           address: req.body.address,
-          profilePicture:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm2xwmXA30O0RMJuturWCgjsMvZDlg7Jzim93BIJ9MgL1PWJMlFwGxCCFpOQUpx5EflMg&usqp=CAU",
         };
 
         const user = await userMongo.collection.insertMany(newUser);
