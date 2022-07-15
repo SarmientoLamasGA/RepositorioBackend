@@ -30,6 +30,18 @@ const UserSchema = new Schema({
     type: Number,
     required: true,
   },
+  country: {
+    type: String,
+    required: true,
+  },
+  estate: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
   address: {
     type: String,
     required: true,

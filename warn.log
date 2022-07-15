@@ -126,3 +126,12 @@
 [2022-07-12T21:29:32.136] [WARN] fileWarn - Acceso a página inexistente: /api/micarrito/1/delete/1
 [2022-07-12T21:49:22.005] [WARN] fileWarn - Acceso a página inexistente: /api/micarrito/productos/1/delete/1
 [2022-07-12T21:51:26.985] [WARN] fileWarn - Acceso a página inexistente: /api/micarrito/productos/1/delete/1
+[2022-07-14T19:40:35.007] [WARN] fileWarn - Acceso a página inexistente: /api
+[2022-07-14T20:11:15.520] [WARN] fileWarn - Acceso a página inexistente: /api/micarrito/productos/1
+[2022-07-14T20:12:15.092] [WARN] fileWarn - Acceso a página inexistente: /api/micarrito
+[2022-07-14T20:12:21.057] [WARN] fileWarn - Acceso a página inexistente: /api/shop
+[2022-07-14T20:12:24.525] [WARN] fileWarn - Acceso a página inexistente: /api/tienda
+[2022-07-14T21:00:59.031] [WARN] fileWarn - Acceso a página inexistente: /user/sesion
+[2022-07-14T21:00:59.473] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico
+[2022-07-14T21:11:51.353] [WARN] fileWarn - Acceso a página inexistente: /api/login
+[2022-07-14T21:47:35.270] [WARN] fileWarn - Acceso a página inexistente: /favicon.ico

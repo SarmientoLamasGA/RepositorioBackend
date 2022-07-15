@@ -59,8 +59,6 @@ passport.use(
         }
         const id = await genId();
 
-        const address = `${req.body.country}, ${req.body.estate}, ${req.body.city}, ${req.body.address}`;
-
         const newUser = {
           username: username,
           email: req.body.email,
@@ -70,8 +68,12 @@ passport.use(
           lastName: req.body.lastName,
           address: req.body.address,
           phone: req.body.phone,
-          address: address,
-          profilePicture: req.body.profilePicture,
+          country: req.body.country,
+          estate: req.body.estate,
+          city: req.body.city,
+          address: req.body.address,
+          profilePicture:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm2xwmXA30O0RMJuturWCgjsMvZDlg7Jzim93BIJ9MgL1PWJMlFwGxCCFpOQUpx5EflMg&usqp=CAU",
         };
 
         const user = await userMongo.collection.insertMany(newUser);

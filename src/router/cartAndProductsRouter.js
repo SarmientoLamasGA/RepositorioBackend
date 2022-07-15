@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const checkUserSession = require("../../utils/checkUserSession");
 
 //DB MongoDB
 const CartDaosMongo = require("../daos/cart/cartDaosMongo.js");
@@ -76,7 +77,7 @@ router.route("/:idCart/delete/:idProd").delete(async (req, res) => {
 
 router
   .route("/:idCart/checkout")
-  .get(async (req, res) => {
+  .get(checkUserSession, async (req, res) => {
     const cart = await cartDB.getById(req.params.idCart);
     const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
 

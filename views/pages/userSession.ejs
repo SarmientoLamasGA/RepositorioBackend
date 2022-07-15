@@ -2,17 +2,33 @@
 <section
   class="container bg-info bg-gradient bg-opacity-25 border border-dark border-2 rounded-4 mt-5 p-3"
 >
-  <h1>Bienvenido <%= user %></h1>
-  <form action="" method="post">
-    <button name="submit" value="logout" class="btn btn-outline-danger">
-      Cerrar Sesión
+  <div>
+    <h1>Bienvenido <%= user.username %></h1>
+    <div>
+      <img
+        src="<%= user.profilePicture %>"
+        alt=""
+        height="150px"
+        width="150px"
+      />
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-danger">
+      <a href="/api/logout" style="text-decoration: none">Cerrar Sesión</a>
     </button>
+
     <button class="btn btn-outline-dark">
       <a href="/api/user/privado" style="text-decoration: none">Pág privada</a>
     </button>
     <button class="btn btn-outline-success">
-      <a href="/api/productos">Ir a tienda</a>
+      <a href="/api/productos" style="text-decoration: none">Ir a tienda</a>
     </button>
+  </div>
+  <form action="" method="post">
+    <label for="newImage">Ingrese url de su nueva imagen de perfil</label>
+    <input type="text" name="newImage" id="newImage" />
+    <button type="submit">Cargar imagen</button>
   </form>
 
   <div><p>La sesión expira a las <%= expires %></p></div>

@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const logInfo = require("../../utils/logger.info");
+const checkUserSession = require("../../utils/checkUserSession");
 
 //DB archivos
 // const CartContainer = require("../../cartContainer");
@@ -18,8 +19,9 @@ const router = new Router();
 // Carro de compras
 router
   .route("/")
-  .get(logInfo, async (req, res) => {
-    res.render("pages/allCarts", { data: await cartDB.getAll() });
+  .get(logInfo, checkUserSession, async (req, res) => {
+    const user = req.user;
+    res.render("pages/allCarts", { data: await cartDB.getAll(), user: user });
   })
   .post(async (req, res) => {
     res.render("pages/allCarts", {
@@ -33,7 +35,7 @@ router
 
 router
   .route("/:id?")
-  .get(logInfo, async (req, res) => {
+  .get(logInfo, checkUserSession, async (req, res) => {
     req.params.id
       ? res.render("pages/cart", { data: await cartDB.getById(req.params.id) })
       : res.send({ info: "No existe este carrito" });

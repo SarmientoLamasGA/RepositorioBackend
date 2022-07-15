@@ -2,10 +2,11 @@ const { Router } = require("express");
 const port = require("../../utils/minimist.options");
 const logInfo = require("../../utils/logger.info");
 const cpus = require("os").cpus();
+const checkUserSession = require("../../utils/checkUserSession");
 
 const router = new Router();
 
-router.route("/").get(logInfo, (req, res) => {
+router.route("/").get(logInfo, checkUserSession, (req, res) => {
   const inputPort = () => {
     if (port == 8080) {
       return `No se ingresó puerto, usando predeterminado(${port})`;
@@ -13,6 +14,7 @@ router.route("/").get(logInfo, (req, res) => {
       return `Puerto ingresado ${port}`;
     }
   };
+  const user = req.user;
   const processInfo = {
     entrada: inputPort(),
     plataforma: process.platform,
@@ -25,7 +27,7 @@ router.route("/").get(logInfo, (req, res) => {
     cpuInfo: cpus,
   };
 
-  res.render("pages/processInfo", { processInfo });
+  res.render("pages/processInfo", { processInfo, user });
 });
 
 module.exports = router;

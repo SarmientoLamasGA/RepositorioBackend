@@ -4,6 +4,7 @@ const { Server: IOServer } = require("socket.io");
 const express = require("express");
 const logInfo = require("../../utils/logger.info");
 const logError = require("../../utils/logger.error");
+const checkUserSession = require("../../utils/checkUserSession");
 
 const httpServer = new HttpServer(express);
 const io = new IOServer(httpServer);
@@ -51,8 +52,9 @@ io.on("connection", async (socket) => {
 //Listado de productos
 router
   .route("/")
-  .get(logInfo, async (req, res) => {
-    res.render("pages/shop", { data: await productsDB.getAll() });
+  .get(logInfo, checkUserSession, async (req, res) => {
+    const user = req.user;
+    res.render("pages/shop", { data: await productsDB.getAll(), user: user });
   })
   .post(async (req, res) => {
     res.send("subido");
@@ -70,8 +72,11 @@ router
 
 router
   .route("/cargar-productos")
-  .get(async (req, res) => {
-    res.render("pages/loadProducts", { data: await productsDB.getAll() });
+  .get(checkUserSession, async (req, res) => {
+    res.render("pages/loadProducts", {
+      data: await productsDB.getAll(),
+      user: user,
+    });
   })
   .post(async (req, res) => {
     try {
@@ -91,7 +96,7 @@ router
 
 router
   .route("/:id?")
-  .get(logInfo, async (req, res) => {
+  .get(logInfo, checkUserSession, async (req, res) => {
     if (req.params.id) {
       const prod = await productsDB.getById(req.params.id);
       if (prod) {

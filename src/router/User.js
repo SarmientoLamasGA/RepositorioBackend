@@ -4,6 +4,9 @@ const checkUserSession = require("../../utils/checkUserSession");
 const passport = require("../../utils/passport.utils");
 const logInfo = require("../../utils/logger.info");
 
+const DaoUserMongo = require("../daos/users/usersDaoMongo");
+const userMongo = new DaoUserMongo();
+
 const router = new Router();
 
 router.route("/").get(async (req, res) => {
@@ -16,7 +19,10 @@ router
     if (req.isAuthenticated()) {
       res.redirect("/api/user/sesion");
     } else {
-      res.render("pages/login");
+      const user = {
+        username: "Invitado",
+      };
+      res.render("pages/login", { user: user });
     }
   })
   .post(
@@ -79,13 +85,20 @@ router
     const user = req.user;
     const expires = req.session.cookie._expires.toTimeString();
     res.render("pages/userSession", {
-      user: user.username,
+      user: user,
       expires: expires,
     });
   })
   .post(async (req, res) => {
-    console.log("redirect");
-    res.redirect("/api/user/logout");
+    let user = req.user;
+    const expires = req.session.cookie._expires.toTimeString();
+    const newImage = req.body.newImage;
+    user.profilePicture = newImage;
+    res.render("pages/userSession", {
+      user: user,
+      expires: expires,
+      updateData: await userMongo.update(user.UId, user),
+    });
   });
 
 router.route("/logout").get(logInfo, async (req, res) => {
@@ -105,7 +118,9 @@ router
   .route("/privado")
   .get(logInfo, checkUserSession, auth, async (req, res) => {
     try {
-      res.send("Este mensaje solo es visible si sos admin");
+      const user = req.user;
+      console.log(user);
+      res.render("Este mensaje solo es visible si sos admin", { user: user });
     } catch (err) {
       console.log(err);
     }

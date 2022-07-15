@@ -1,0 +1,19 @@
+<% if (user) { %> <% if(user.username !== "Invitado"){ %>
+<section>
+  <a href="/api/user/sesion"
+    ><div>
+      <div>
+        <img
+          src="<%= user.profilePicture %>"
+          alt="<%= user.username %> photo"
+          height="50px"
+          width="50px"
+        />
+      </div>
+      <p><%= user.username %></p>
+    </div></a
+  >
+</section>
+<% } else { %>
+<section><p>Usted ha ingresado como invitado.</p></section>
+<% } %> <% } else {%> <% } %>

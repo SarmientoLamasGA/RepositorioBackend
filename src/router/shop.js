@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const router = new Router();
 
+const checkUserSession = require("../../utils/checkUserSession");
+
 const CartDaosMongo = require("../daos/cart/cartDaosMongo.js");
 const cartDB = new CartDaosMongo();
 
@@ -9,7 +11,7 @@ const productsDB = new ProductsDaosMongo();
 
 router
   .route("/:idCart")
-  .get(async (req, res) => {
+  .get(checkUserSession, async (req, res) => {
     try {
       const prodList = await productsDB.getAll();
       res.render("pages/shop", { data: prodList });
