@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const port = require("../../utils/minimist.options");
-const logInfo = require("../../utils/logger.info");
+const port = require("../utils/minimist.options");
+const logInfo = require("../utils/logger.info");
 const cpus = require("os").cpus();
-const checkUserSession = require("../../utils/checkUserSession");
+const checkUserSession = require("../../middlewares/checkUserSession");
 
 const router = new Router();
 

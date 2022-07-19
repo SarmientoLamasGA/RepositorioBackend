@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const logInfo = require("../../utils/logger.info");
-const checkUserSession = require("../../utils/checkUserSession");
+const logInfo = require("../utils/logger.info");
+const checkUserSession = require("../../middlewares/checkUserSession");
 
 //DB archivos
 // const CartContainer = require("../../cartContainer");

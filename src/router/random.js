@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { fork } = require("child_process");
-const puerto = require("../../utils/minimist.options").port;
-const logInfo = require("../../utils/logger.info");
+const puerto = require("../utils/minimist.options").port;
+const logInfo = require("../utils/logger.info");
 
 const router = new Router();
 

@@ -2,9 +2,9 @@ const { Router } = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const express = require("express");
-const logInfo = require("../../utils/logger.info");
-const logError = require("../../utils/logger.error");
-const checkUserSession = require("../../utils/checkUserSession");
+const logInfo = require("../utils/logger.info");
+const logError = require("../utils/logger.error");
+const checkUserSession = require("../../middlewares/checkUserSession");
 
 const httpServer = new HttpServer(express);
 const io = new IOServer(httpServer);

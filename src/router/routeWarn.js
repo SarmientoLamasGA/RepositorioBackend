@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const logWarn = require("../../utils/logger.warn");
+const logWarn = require("../utils/logger.warn");
 
 const router = new Router();
 

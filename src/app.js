@@ -10,7 +10,7 @@ const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-const config = require("../config/config");
+const config = require("./config/config");
 
 // const httpServer = new HttpServer(app);
 // const io = new IOServer(httpServer);

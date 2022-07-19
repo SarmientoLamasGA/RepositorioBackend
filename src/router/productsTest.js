@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const logInfo = require("../../utils/logger.info");
+const logInfo = require("../utils/logger.info");
 
 // const fs = require("fs")
 const containerProductsTest = require("../containers/containerProductsTest");
