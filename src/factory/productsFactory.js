@@ -1,9 +1,9 @@
-const ProductsDaosMongo = require("../daos/products/productsDaosMongo");
-const ProductsDaosFile = require("../daos/products/ProducotsDaosFile");
+const ProductsDaosMongo = require("../daos/products/productsDaoMongo");
+const ProductsDaosFile = require("../daos/products/productsDaoFile");
 const options = require("../utils/minimist.options");
 const db = options.db;
 
-class productsFactory {
+class ProductsFactory {
   create() {
     if (db == 1) {
       const db = ProductsDaosMongo.getInstance();
@@ -18,4 +18,4 @@ class productsFactory {
   }
 }
 
-module.exports = productsFactory;
+module.exports = ProductsFactory;

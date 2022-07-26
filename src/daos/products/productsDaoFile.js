@@ -1,4 +1,4 @@
-const ContainerFile = require("../../containers/containerArchivo");
+const ContainerFile = require("../../containers/containerFileProduct");
 let instance = null;
 
 class ProductsDaosFile extends ContainerFile {

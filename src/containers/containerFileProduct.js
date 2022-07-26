@@ -13,6 +13,7 @@ class Container {
     }
     return instance;
   }
+
   async searchFile() {
     if (fs.existsSync(this.url)) {
       const file = await fs.promises.readFile(this.url, "utf-8"); //Se busca archivo

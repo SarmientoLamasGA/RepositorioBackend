@@ -2,11 +2,13 @@ const { Router } = require("express");
 const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB MongoDB
-const CartDaosMongo = require("../daos/cart/cartDaosMongo.js");
-const cartDB = new CartDaosMongo();
+const CartsFactory = require("../factory/cartFactory");
+const cartFactory = new CartsFactory();
+const cartDB = cartFactory.create();
 
-const ProductsDaosMongo = require("../daos/products/productsDaosMongo.js");
-const productsDB = new ProductsDaosMongo();
+const ProductsFactory = require("../factory/productsFactory");
+const productsFactory = new ProductsFactory();
+const productsDB = factory.create();
 
 //EMAIL
 const { createTransport } = require("nodemailer");

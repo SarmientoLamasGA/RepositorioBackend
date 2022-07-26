@@ -7,8 +7,9 @@ const checkUserSession = require("../middlewares/checkUserSession");
 // const cartContainer = new CartContainer();
 
 //DB MongoDB
-const CartDaosMongo = require("../daos/cart/cartDaosMongo");
-const cartDB = new CartDaosMongo();
+const CartsFactory = require("../factory/cartFactory");
+const factory = new CartsFactory();
+const cartDB = factory.create();
 
 //DB Firebase
 // const CartDaosFirebase = require("../daos/cart/cartDaosFirebase");

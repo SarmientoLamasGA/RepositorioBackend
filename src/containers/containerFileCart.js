@@ -4,6 +4,13 @@ class CartContainer {
     this.url = "./cart.json";
   }
 
+  static getInstance() {
+    if (!instance) {
+      instance = new ContainerMongo();
+    }
+    return instance;
+  }
+
   async searchFile() {
     if (!fs.existsSync(this.url)) {
       await fs.promises.writeFile(this.url, "[]");
