@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const auth = require("../../middlewares/auth");
-const checkUserSession = require("../../middlewares/checkUserSession");
+const auth = require("../middlewares/auth");
+const checkUserSession = require("../middlewares/checkUserSession");
 const passport = require("../utils/passport.utils");
 const logInfo = require("../utils/logger.info");
 

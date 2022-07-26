@@ -1,14 +1,8 @@
 const mongoose = require("mongoose");
 const config = require("../config/config");
+let instance = null;
 
 mongoose.connect(config.MONGODB_CONTAINERMONGO);
-
-// mongoose.connection.on("open", () => {
-//   console.log("Base de datos Mongo");
-// });
-// mongoose.connection.on("error", () => {
-//   console.log("error");
-// });
 
 const genId = async (db) => {
   try {
@@ -30,6 +24,13 @@ const genId = async (db) => {
 class ContainerMongo {
   constructor(collection, schema) {
     this.collection = mongoose.model(collection, schema);
+  }
+
+  static getInstance() {
+    if (!instance) {
+      instance = new ContainerMongo();
+    }
+    return instance;
   }
 
   async getAll() {

@@ -31,3 +31,9 @@ Cluster:
     pm2 start server.js --name="server cluster" -i max -- --port 8080
 Cluster con watch:
     pm2 start server.js --name="server cluster" --watch  -i max -- --port 8080
+
+Comando Factory
+DB Mongo: 
+    node server.js --db 1
+DB Archivos: 
+    node server.js --db 2

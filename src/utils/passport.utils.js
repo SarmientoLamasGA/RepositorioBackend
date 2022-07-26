@@ -1,7 +1,7 @@
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { Strategy: LocalStrategy } = require("passport-local");
-const DaoUserMongo = require("../src/daos/users/usersDaoMongo");
+const DaoUserMongo = require("../daos/users/usersDaoMongo");
 const userMongo = new DaoUserMongo();
 
 const genId = async () => {

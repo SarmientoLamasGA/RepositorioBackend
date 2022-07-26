@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const checkUserSession = require("../../middlewares/checkUserSession");
+const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB MongoDB
 const CartDaosMongo = require("../daos/cart/cartDaosMongo.js");

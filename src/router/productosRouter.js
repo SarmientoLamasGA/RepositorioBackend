@@ -4,14 +4,14 @@ const { Server: IOServer } = require("socket.io");
 const express = require("express");
 const logInfo = require("../utils/logger.info");
 const logError = require("../utils/logger.error");
-const checkUserSession = require("../../middlewares/checkUserSession");
+const checkUserSession = require("../middlewares/checkUserSession");
 
 const httpServer = new HttpServer(express);
 const io = new IOServer(httpServer);
 
 const router = new Router();
 
-const ControlMessage = require("../../dbSql/controldb/controlMessages");
+const ControlMessage = require("../db/dbSql/controldb/controlMessages");
 const messagesDB = new ControlMessage();
 
 // const ControlProductsDB = require("../../controldb/controlProducts");
@@ -19,8 +19,9 @@ const messagesDB = new ControlMessage();
 
 //Mongo DB
 
-const ProductsDaosMongo = require("../daos/products/productsDaosMongo");
-const productsDB = new ProductsDaosMongo();
+const productsFactory = require("../factory/productsFactory");
+const factory = new productsFactory();
+const productsDB = factory.create();
 
 //Firebase DB
 // const ProductsFirebaseDaos = require("../daos/products/productDaosFirebase");

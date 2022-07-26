@@ -4,7 +4,7 @@ const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-const options = require("./utils/minimist.options");
+const options = require("./src/utils/minimist.options");
 const cluster = require("cluster");
 const numCPU = require("os").cpus().length;
 
