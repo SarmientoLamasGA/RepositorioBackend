@@ -1,9 +1,17 @@
 const fs = require("fs");
+let instance = null;
 
 //class
 class Container {
   constructor() {
     this.url = `./productos.json`;
+  }
+
+  static getInstance() {
+    if (!instance) {
+      instance = new ContainerMongo();
+    }
+    return instance;
   }
   async searchFile() {
     if (fs.existsSync(this.url)) {
