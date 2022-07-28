@@ -8,7 +8,7 @@ const cartDB = cartFactory.create();
 
 const ProductsFactory = require("../factory/productsFactory");
 const productsFactory = new ProductsFactory();
-const productsDB = factory.create();
+const productsDB = productsFactory.create();
 
 //EMAIL
 const { createTransport } = require("nodemailer");

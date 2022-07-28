@@ -8,7 +8,7 @@ class CartDaosMongo extends ContainerMongo {
   }
   static getInstance() {
     if (!instance) {
-      instance = new ProductsDaosMongo();
+      instance = new CartDaosMongo();
     }
     return instance;
   }

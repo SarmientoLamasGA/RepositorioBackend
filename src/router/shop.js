@@ -3,10 +3,10 @@ const router = new Router();
 
 const checkUserSession = require("../middlewares/checkUserSession");
 
-const CartDaosMongo = require("../daos/cart/cartDaosMongo.js");
+const CartDaosMongo = require("../daos/cart/cartDaoMongo");
 const cartDB = new CartDaosMongo();
 
-const ProductsDaosMongo = require("../daos/products/productsDaosMongo.js");
+const ProductsDaosMongo = require("../daos/products/productsDaoMongo");
 const productsDB = new ProductsDaosMongo();
 
 router

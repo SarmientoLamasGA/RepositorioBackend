@@ -19,9 +19,12 @@ const messagesDB = new ControlMessage();
 
 //Mongo DB
 
-const productsFactory = require("../factory/productsFactory");
-const factory = new productsFactory();
-const productsDB = factory.create();
+// const productsFactory = require("../factory/productsFactory");
+// const factory = new productsFactory();
+// const productsDB = factory.create();
+
+const ProductRepo = require("../repositories/productoRepo");
+const productsDB = ProductRepo.getInstance();
 
 //Firebase DB
 // const ProductsFirebaseDaos = require("../daos/products/productDaosFirebase");
@@ -74,6 +77,7 @@ router
 router
   .route("/cargar-productos")
   .get(checkUserSession, async (req, res) => {
+    const user = req.user;
     res.render("pages/loadProducts", {
       data: await productsDB.getAll(),
       user: user,
@@ -81,11 +85,13 @@ router
   })
   .post(async (req, res) => {
     try {
+      const user = req.user;
       // if (req.body) {
       // res.send(req.body);
       res.render("pages/loadProducts", {
         data: await productsDB.getAll(),
-        saveData: await productsDB.save(req.body),
+        saveData: await productsDB.add(req.body),
+        user: user,
       });
       // } else {
       //   return { error: "-1", descripcion: `POST a "/" no autorizado` };
@@ -114,7 +120,7 @@ router
     if (admin) {
       const idExist = await productsDB.getById(req.params.id);
       if (idExist) {
-        res.send(await productsDB.update(req.params.id, req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista;
+        res.send(await productsDB.modify(req.params.id, req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista;
       } else {
         res.send({ Info: "No existe el producto" });
       }
