@@ -56,9 +56,11 @@ io.on("connection", async (socket) => {
 //Listado de productos
 router
   .route("/")
-  .get(logInfo, checkUserSession, async (req, res) => {
+  // .get(logInfo, checkUserSession, async (req, res) => {
+  .get(logInfo, async (req, res) => {
     const user = req.user;
-    res.render("pages/shop", { data: await productsDB.getAll(), user: user });
+    res.send(await productsDB.getAll());
+    // res.render("pages/shop", { data: await productsDB.getAll(), user: user });
   })
   .post(async (req, res) => {
     res.send("subido");
@@ -76,7 +78,8 @@ router
 
 router
   .route("/cargar-productos")
-  .get(checkUserSession, async (req, res) => {
+  // .get(checkUserSession, async (req, res) => {
+  .get(async (req, res) => {
     const user = req.user;
     res.render("pages/loadProducts", {
       data: await productsDB.getAll(),
@@ -103,7 +106,8 @@ router
 
 router
   .route("/:id?")
-  .get(logInfo, checkUserSession, async (req, res) => {
+  // .get(logInfo, checkUserSession, async (req, res) => {
+  .get(logInfo, async (req, res) => {
     if (req.params.id) {
       const prod = await productsDB.getById(req.params.id);
       if (prod) {
@@ -132,7 +136,7 @@ router
     if (admin) {
       const idExist = await productsDB.getById(req.params.id);
       if (idExist) {
-        res.send(await productsDB.deleteById(req.params.id)); //Se borra el objeto según el ID
+        res.send(await productsDB.deleteDoc(req.params.id)); //Se borra el objeto según el ID
       } else {
         res.send({ Info: "No existe el producto" });
       }
