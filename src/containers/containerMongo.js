@@ -59,14 +59,7 @@ class ContainerMongo {
     try {
       const id = await genId(this.collection);
       if (obj) {
-        const newProd = await this.collection.create({
-          UId: id,
-          title: obj.title,
-          price: obj.price,
-          thumbnail: obj.thumbnail,
-          description: obj.description,
-          stock: 500,
-        });
+        const newProd = await this.collection.create({ obj });
         return newProd;
       } else {
         const newProd = await this.collection.create({

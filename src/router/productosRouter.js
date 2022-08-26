@@ -11,9 +11,6 @@ const io = new IOServer(httpServer);
 
 const router = new Router();
 
-const ControlMessage = require("../db/dbSql/controldb/controlMessages");
-const messagesDB = new ControlMessage();
-
 // const ControlProductsDB = require("../../controldb/controlProducts");
 // const productsDB = new ControlProductsDB();
 

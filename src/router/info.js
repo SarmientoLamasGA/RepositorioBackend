@@ -6,7 +6,7 @@ const checkUserSession = require("../middlewares/checkUserSession");
 
 const router = new Router();
 
-router.route("/").get(logInfo, checkUserSession, (req, res) => {
+router.route("/").get(logInfo, checkUserSession, async (req, res) => {
   const inputPort = () => {
     if (port == 8080) {
       return `No se ingresó puerto, usando predeterminado(${port})`;

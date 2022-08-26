@@ -49,7 +49,7 @@ router.route("/login-error").get(async (req, res) => {
 router
   .route("/signup")
   .get(logInfo, async (req, res) => {
-    res.render("pages/signup");
+    res.render("pages/signup", { user: req.user });
   })
   .post(
     passport.authenticate("signup", {
@@ -57,14 +57,21 @@ router
     }),
     async (req, res) => {
       try {
+        //REVISAR USUARIO DEVUELVE ARRAY
         const user = req.user;
+        console.log(user);
         if (!user) {
           res.render("pages/userInfo", {
+            user: user,
             error: true,
             infoError: "Error en el registro",
           });
         } else {
-          res.render("pages/userInfo", { error: false, info: "Registrado" });
+          res.render("pages/userInfo", {
+            user: user,
+            error: false,
+            info: "Registrado",
+          });
         }
       } catch (err) {
         console.log(err);

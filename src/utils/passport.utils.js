@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const { Strategy: LocalStrategy } = require("passport-local");
 const DaoUserMongo = require("../daos/users/usersDaoMongo");
 const userMongo = new DaoUserMongo();
+const DaoCartMongo = require("../daos/cart/cartDaoMongo");
+const cartMongo = new DaoCartMongo();
 
 const genId = async () => {
   try {
@@ -74,7 +76,13 @@ passport.use(
           address: req.body.address,
         };
 
+        const newCart = {
+          UId: id,
+          username: username,
+        };
+
         const user = await userMongo.collection.insertMany(newUser);
+        await cartMongo.collection.insertMany(newCart);
         return done(null, user);
       } catch (err) {
         console.log(err);
