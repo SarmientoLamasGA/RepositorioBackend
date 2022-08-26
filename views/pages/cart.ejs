@@ -1,5 +1,9 @@
 <%- include("../partials/head.ejs") -%> <% if(data) { %>
-<section class="myCart"><h1>Carrito ID: <%= data.UId %></h1></section>
+<section class="myCart">
+  <h1>Mi carrito</h1>
+  <p>Usuario: <%= data.username %></p>
+  <p>Carrito ID: <%= data.UId %></p>
+</section>
 <ul>
   <p>Productos</p>
 

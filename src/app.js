@@ -46,7 +46,7 @@ app.use("/", root);
 const productosRouter = require("./router/productosRouter");
 app.use("/api/productos", productosRouter);
 
-const cartRouter = require("./router/cartRouter");
+const cartRouter = require("./router/cart");
 app.use("/api/carrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
@@ -62,7 +62,7 @@ const cookies = require("./router/cookies");
 app.use("/api/cookies", cookies);
 
 const logIn = require("./router/User");
-app.use("/api/User", logIn);
+app.use("/api/usuario", logIn);
 
 const info = require("./router/info");
 app.use("/api/info", info);

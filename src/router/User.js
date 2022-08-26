@@ -10,7 +10,7 @@ const userMongo = new DaoUserMongo();
 const router = new Router();
 
 router.route("/").get(async (req, res) => {
-  res.redirect("/api/user/login");
+  res.redirect("/api/usuario/login");
 });
 
 router
