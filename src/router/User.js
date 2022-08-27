@@ -17,7 +17,7 @@ router
   .route("/login")
   .get(logInfo, async (req, res) => {
     if (req.isAuthenticated()) {
-      res.redirect("/api/user/sesion");
+      res.redirect("/api/usuario/sesion");
     } else {
       const user = {
         username: "Invitado",
@@ -32,7 +32,7 @@ router
     async (req, res) => {
       try {
         req.session.username = req.user.username;
-        res.redirect("/api/user/sesion");
+        res.redirect("/api/usuario/sesion");
       } catch (err) {
         console.log(err);
       }

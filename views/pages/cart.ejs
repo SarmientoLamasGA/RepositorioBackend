@@ -10,14 +10,16 @@
   <% data.productos.forEach(x => {%>
   <li>
     <div>
-      <h3><%= x.title %></h3>
-      <p><%= x.price %></p>
-      <a href="../micarrito/productos/<%= data.UId %>/delete/<%= x.UId %> ">
-        Borrar</a
-      >
+      <form action="" method="post">
+        <h3><%= x.title %></h3>
+        <p>$ <%= x.price %></p>
+        <p>ID <%= x.UId %></p>
+        <button type="submit" name="UId" value="<%= x.UId %>">
+          Borrar</butt
+        >
+      </form>
     </div>
   </li>
-</ul>
 <%}) %>
 <h2>
   <button>

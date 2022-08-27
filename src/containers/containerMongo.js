@@ -111,9 +111,8 @@ class ContainerMongo {
 
   async deleteFromCart(cart, idCart, idProd) {
     try {
-      const prodIndex = cart.productos.findIndex(
-        (p) => p.Uid.valueOf() === idProd
-      );
+      const findId = Number(idProd);
+      const prodIndex = cart.productos.findIndex((p) => p.UId === findId);
       if (prodIndex !== -1) {
         cart.productos.splice(prodIndex, 1);
         await this.update(idCart, cart);

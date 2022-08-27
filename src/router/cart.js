@@ -28,35 +28,28 @@ const router = new Router();
 // });
 
 router
-  .route("/:id?")
+  .route("/")
   .get(logInfo, checkUserSession, async (req, res) => {
     try {
       const user = req.user;
       const userUId = user.UId;
-      if (req.params.id) {
-        const paramsId = req.params.id;
-        if (paramsId == userUId) {
-          res.render("pages/cart", {
-            data: await cartDB.getById(req.params.id),
-            user,
-          });
-        } else {
-          res.send("No tiene acceso");
-        }
-      } else {
-        res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-      }
+      res.render("pages/cart", { data: await cartDB.getById(userUId), user });
     } catch (error) {
       console.log(error);
     }
   })
-  .delete(async (req, res) => {
-    req.params.body
-      ? res.render("pages/cart", {
-          delData: await cartDB.deleteById(req.params.id),
-          data: await cartDB.getById(req.params.id),
-        })
-      : res.send({ info: "No existe este carrito" });
+  .post(async (req, res) => {
+    // req.params.body
+    //   ? res.render("pages/cart", {
+    //       delData: await cartDB.deleteById(req.params.id),
+    //       data: await cartDB.getById(req.params.id),
+    //     })
+    //   : res.send({ info: "No existe este carrito" });
+    const user = req.user;
+    const userUId = user.UId;
+    const cart = await cartDB.getById(userUId);
+    await cartDB.deleteFromCart(cart, userUId, req.body.UId);
+    res.render("pages/cart", { data: await cartDB.getById(userUId), user });
   });
 
 router.route("/todos").get(logInfo, checkUserSession, async (req, res) => {

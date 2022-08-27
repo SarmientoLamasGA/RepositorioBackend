@@ -47,7 +47,7 @@ const productosRouter = require("./router/productosRouter");
 app.use("/api/productos", productosRouter);
 
 const cartRouter = require("./router/cart");
-app.use("/api/carrito", cartRouter);
+app.use("/api/micarrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
 app.use("/api/micarrito/productos", cartAndProductsRouter);

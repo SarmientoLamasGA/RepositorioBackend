@@ -7,7 +7,7 @@ const checkUserSession = (req, res, next) => {
       next();
     }
   } else {
-    res.redirect("/api/user");
+    res.redirect("/api/usuario");
   }
 };
 
