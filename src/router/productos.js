@@ -147,4 +147,47 @@ router
     }
   });
 
+router
+  .route("/categoria/:category?")
+  .get(logInfo, checkUserSession, async (req, res) => {
+    if (req.params.category) {
+      const prod = await productsDB.getByCategory(req.params.category);
+      if (prod) {
+        res.send(prod);
+      } else {
+        logError(req.params.category);
+        res.send({ Error: "Producto inexistente" });
+      }
+    } else {
+      console.log(await productsDB.getAll()); //Se obtiene todo el contenido
+    }
+  })
+  .put(async (req, res) => {
+    if (admin) {
+      const idExist = await productsDB.getById(req.params.id);
+      if (idExist) {
+        res.send(await productsDB.modify(req.params.id, req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista;
+      } else {
+        res.send({ Info: "No existe el producto" });
+      }
+    } else {
+      return { error: "-1", descripcion: `PUT a "/productos" no autorizado` };
+    }
+  })
+  .delete(async (req, res) => {
+    if (admin) {
+      const idExist = await productsDB.getById(req.params.id);
+      if (idExist) {
+        res.send(await productsDB.deleteDoc(req.params.id)); //Se borra el objeto según el ID
+      } else {
+        res.send({ Info: "No existe el producto" });
+      }
+    } else {
+      return {
+        error: "-1",
+        descripcion: `DELETE a "/productos" no autorizado`,
+      };
+    }
+  });
+
 module.exports = router;

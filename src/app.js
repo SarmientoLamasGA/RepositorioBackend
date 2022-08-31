@@ -50,7 +50,7 @@ const cartRouter = require("./router/cart");
 app.use("/api/micarrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
-app.use("/api/micarrito/productos", cartAndProductsRouter);
+app.use("/api/carrito/productos", cartAndProductsRouter);
 
 const cookies = require("./router/cookies");
 app.use("/api/cookies", cookies);

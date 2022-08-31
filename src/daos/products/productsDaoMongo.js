@@ -12,6 +12,19 @@ class ProductsDaosMongo extends ContainerMongo {
     }
     return instance;
   }
+
+  async getByCategory(category) {
+    try {
+      console.log(typeof category);
+      const prodExist = await this.collection.find({ category: category });
+      console.log(prodExist);
+      if (prodExist) {
+        return prodExist;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProductsDaosMongo;

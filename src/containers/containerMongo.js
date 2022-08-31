@@ -60,7 +60,7 @@ class ContainerMongo {
     try {
       const id = await genId(this.collection);
       if (obj) {
-        const newProd = await this.collection.create({ obj });
+        const newProd = await this.collection.create({ UId: id, ...obj });
         return newProd;
       } else {
         const newProd = await this.collection.create({
