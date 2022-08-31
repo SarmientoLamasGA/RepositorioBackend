@@ -4,8 +4,25 @@ const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB
 const CartsFactory = require("../factory/cartFactory");
-const factory = new CartsFactory();
-const cartDB = factory.create();
+const cartsFact = new CartsFactory();
+const cartDB = cartsFact.create();
+
+const OrdersFactory = require("../factory/ordersFactory");
+const ordersFact = new OrdersFactory();
+const ordersDB = ordersFact.create();
+
+//EMAIL
+const { createTransport } = require("nodemailer");
+const MAIL = "shawn.dubuque13@ethereal.email";
+const transporter = createTransport({
+  name: "shawn.dubuque13@ethereal.email",
+  host: "smtp.ethereal.email",
+  port: 587,
+  auth: {
+    user: MAIL,
+    pass: "9Q2nBhv9wSZHWYaHHt",
+  },
+});
 
 const router = new Router();
 
@@ -39,31 +56,31 @@ router
   })
   .post(async (req, res) => {
     const cart = await cartDB.getById(req.params.idCart);
+    const user = req.user;
+    const email = user.email;
     const contact = {
       name: req.body.name,
       lastName: req.body.lastname,
-      phone: `+549${req.body.phone}`,
       email: req.body.email,
     };
 
-    client.messages
-      .create({
-        body: "Compra confirmada",
-        from: "whatsapp:+14155238886",
-        to: `whatsapp:${contact.phone}`,
-      })
-      .then((message) => console.log(`Message sid: ${message.sid}`))
-      .done();
-
     const mailOptions = {
-      from: "Compra en backend",
-      to: `${contact.email}`,
+      from: `${contact.email}`,
+      to: `${MAIL}`,
       subject: "Compra aceptada",
       text: "Compra Confirmada",
+      html: "<p>Compra realizada!</p>",
     };
-    transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        console.log({ error: "error", message: err });
+      } else {
+        console.log({ info: info });
+      }
+    });
 
-    res.send(contact);
+    const order = await ordersDB.saveOrder(cart, email);
+    res.send(order);
   });
 
 router.route("/todos").get(logInfo, checkUserSession, async (req, res) => {
