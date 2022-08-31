@@ -1,12 +1,12 @@
 <%- include("../partials/head.ejs") -%> <% if(data) { %>
 <section class="myCart">
   <h1>Mi carrito</h1>
-  <p>Usuario: <%= data.username %></p>
-  <p>Carrito ID: <%= data.UId %></p>
+  <p>Carrito del usuario: <%= data.username %></p>
 </section>
 <ul>
   <p>Productos</p>
 
+  <% if (data.productos.length > 0) { %> 
   <% data.productos.forEach(x => {%>
   <li>
     <div>
@@ -23,11 +23,16 @@
 <%}) %>
 <h2>
   <button>
-    <a href="../micarrito/productos/<%= data.UId %>/checkout"
+    <a href="../micarrito/<%= data.UId %>/checkout"
       >Continuar con la compra</a
     >
   </button>
 </h2>
+<% } else {%> 
+  <p>No hay productos en este carrito</p>
+  <% } %> 
+</ul>
+
 <% }else {%>
 <section class="myCart">
   <h1>No existe ningún carrito.</h1>

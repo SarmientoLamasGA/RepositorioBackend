@@ -4,13 +4,7 @@ const db = options.db;
 
 class ProductsFactory {
   create() {
-    if (db == 1) {
-      const db = ProductsDaosMongo.getInstance();
-      return db;
-    } else {
-      const db = ProductsDaosMongo.getInstance();
-      return db;
-    }
+    const db = ProductsDaosMongo.getInstance();
   }
 }
 

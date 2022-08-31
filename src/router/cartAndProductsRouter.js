@@ -77,41 +77,4 @@ router.route("/:idCart/delete/:idProd").delete(async (req, res) => {
   });
 });
 
-router
-  .route("/:idCart/checkout")
-  .get(checkUserSession, async (req, res) => {
-    const cart = await cartDB.getById(req.params.idCart);
-    const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
-
-    res.render("pages/checkout", { data: cart, totalPrice: totalPrice });
-  })
-  .post(async (req, res) => {
-    const cart = await cartDB.getById(req.params.idCart);
-    const contact = {
-      name: req.body.name,
-      lastName: req.body.lastname,
-      phone: `+549${req.body.phone}`,
-      email: req.body.email,
-    };
-
-    client.messages
-      .create({
-        body: "Compra confirmada",
-        from: "whatsapp:+14155238886",
-        to: `whatsapp:${contact.phone}`,
-      })
-      .then((message) => console.log(`Message sid: ${message.sid}`))
-      .done();
-
-    const mailOptions = {
-      from: "Compra en backend",
-      to: `${contact.email}`,
-      subject: "Compra aceptada",
-      text: "Compra Confirmada",
-    };
-    transporter.sendMail(mailOptions);
-
-    res.send(contact);
-  });
-
 module.exports = router;

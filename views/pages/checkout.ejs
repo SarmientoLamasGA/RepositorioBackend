@@ -1,5 +1,6 @@
 <%- include("../partials/head.ejs") -%>
 <section>
+  <% if(data.productos.length > 0){ %>
   <h1>Confirmar compra</h1>
   <div>
     <h2>Su compra</h2>
@@ -27,5 +28,8 @@
       <button type="submit">Confirmar compra</button>
     </form>
   </div>
+  <% } else { %>
+  <p>No hay productos en este carrito</p>
+  <% } %>
 </section>
 <%- include("../partials/footer.ejs") -%>
