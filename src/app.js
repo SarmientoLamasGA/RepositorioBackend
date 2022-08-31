@@ -73,6 +73,9 @@ app.use("/api/random", random);
 const shop = require("./router/shop");
 app.use("/api/tienda", shop);
 
+const chat = require("./router/chat");
+app.use("/api/chat", chat);
+
 const contactMail = require("./router/contactMail");
 app.use("/api/contacto", contactMail);
 

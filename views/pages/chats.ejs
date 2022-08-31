@@ -1,0 +1,6 @@
+<%- include("../partials/head.ejs") -%> <% if (user.admin){ %>
+<p>chat de admin</p>
+<% } else if (!user.admin){ %> <%- include("../partials/chatUser.ejs") %> <%
+}else { %>
+<p>ERROR</p>
+<% } %> <%- include("../partials/footer.ejs") -%>

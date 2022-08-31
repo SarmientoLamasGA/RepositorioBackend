@@ -8,8 +8,6 @@ const options = require("./src/utils/minimist.options");
 const cluster = require("cluster");
 const numCPU = require("os").cpus().length;
 
-app.set("socketio", io);
-
 if (options.mode == "cluster") {
   if (cluster.isMaster) {
     console.log("Modo cluster");
