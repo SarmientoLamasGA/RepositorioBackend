@@ -43,7 +43,7 @@ io.on("connection", async () => {
 const root = require("./router/root");
 app.use("/", root);
 
-const productosRouter = require("./router/productosRouter");
+const productosRouter = require("./router/productos");
 app.use("/api/productos", productosRouter);
 
 const cartRouter = require("./router/cart");
@@ -51,12 +51,6 @@ app.use("/api/micarrito", cartRouter);
 
 const cartAndProductsRouter = require("./router/cartAndProductsRouter");
 app.use("/api/micarrito/productos", cartAndProductsRouter);
-
-const productsTest = require("./router/productsTest");
-app.use("/api/productos-test", productsTest, (req, res, next) => {
-  req.io = io;
-  next();
-});
 
 const cookies = require("./router/cookies");
 app.use("/api/cookies", cookies);

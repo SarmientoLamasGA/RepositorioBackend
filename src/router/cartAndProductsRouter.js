@@ -30,13 +30,6 @@ const authToken = "ee6d0b047eeb4029fd0ad6a67dbd78eb";
 
 const client = twilio(accountSid, authToken);
 
-//DB Firebase
-// const CartDaosFirebase = require("../daos/cart/cartDaosFirebase");
-// const cartDB = new CartDaosFirebase();
-
-// const ProductsDaosFirebase = require("../daos/products/productDaosFirebase");
-// const productsDB = new ProductsDaosFirebase();
-
 const router = new Router();
 
 // router.route("/:idCart/:idProd").post(async (req, res) => {

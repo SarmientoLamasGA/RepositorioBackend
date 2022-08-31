@@ -1,18 +1,13 @@
 const { Router } = require("express");
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
 const express = require("express");
 const logInfo = require("../utils/logger.info");
 const logError = require("../utils/logger.error");
 const checkUserSession = require("../middlewares/checkUserSession");
 
-const httpServer = new HttpServer(express);
-const io = new IOServer(httpServer);
+// const httpServer = new HttpServer(express);
+// const io = new IOServer(httpServer);
 
 const router = new Router();
-
-// const ControlProductsDB = require("../../controldb/controlProducts");
-// const productsDB = new ControlProductsDB();
 
 //Mongo DB
 
@@ -20,47 +15,60 @@ const router = new Router();
 // const factory = new productsFactory();
 // const productsDB = factory.create();
 
-const ProductRepo = require("../repositories/productoRepo");
-const productsDB = ProductRepo.getInstance();
+const CartDaosMongo = require("../daos/cart/cartDaoMongo");
+const cartDB = new CartDaosMongo();
 
-//Firebase DB
-// const ProductsFirebaseDaos = require("../daos/products/productDaosFirebase");
-// const productsDB = new ProductsFirebaseDaos();
+const ProductsDaosMongo = require("../daos/products/productsDaoMongo");
+const productsDB = new ProductsDaosMongo();
 
 const admin = true;
 
-//Websocket
-io.on("connection", async (socket) => {
-  //Conexion
-  console.log("Usuario conectado");
-  io.sockets.emit("requestChat", await messagesDB.getChat()); // Ver comentario abajo
-  io.sockets.emit("requestProducts", await productsDB.getAll()); // Ambas líneas funcionan todo el tiempo desde la conexión
+// //Websocket
+// io.on("connection", async (socket) => {
+//   //Conexion
+//   console.log("Usuario conectado");
+//   io.sockets.emit("requestChat", await messagesDB.getChat()); // Ver comentario abajo
+//   io.sockets.emit("requestProducts", await productsDB.getAll()); // Ambas líneas funcionan todo el tiempo desde la conexión
 
-  //Productos
-  socket.on("newProd", async (prod) => {
-    await productsDB.save(prod);
-    io.sockets.emit("prodList", { data: await productsDB.getAll() }); //No sé si es útil ya que en connection hay una línea que actualiza constantemente (39)
-  });
+//   //Productos
+//   socket.on("newProd", async (prod) => {
+//     await productsDB.save(prod);
+//     io.sockets.emit("prodList", { data: await productsDB.getAll() }); //No sé si es útil ya que en connection hay una línea que actualiza constantemente (39)
+//   });
 
-  //Chat
-  socket.on("newMessage", async (message) => {
-    await messagesDB.saveChat(message);
-    io.sockets.emit("messages", { data: await messagesDB.getChat() }); //Idém línea 48
-    // });
-  });
-});
+//   //Chat
+//   socket.on("newMessage", async (message) => {
+//     await messagesDB.saveChat(message);
+//     io.sockets.emit("messages", { data: await messagesDB.getChat() }); //Idém línea 48
+//     // });
+//   });
+// });
 
 //Listado de productos
 router
   .route("/")
   // .get(logInfo, checkUserSession, async (req, res) => {
-  .get(logInfo, async (req, res) => {
-    const user = req.user;
-    res.send(await productsDB.getAll());
-    // res.render("pages/shop", { data: await productsDB.getAll(), user: user });
+  .get(checkUserSession, logInfo, async (req, res) => {
+    try {
+      const user = req.user;
+      const prodList = await productsDB.getAll();
+      res.render("pages/shop", { data: prodList, user });
+    } catch (error) {
+      console.log(error);
+    }
   })
   .post(async (req, res) => {
-    res.send("subido");
+    const user = req.user;
+    const idCart = user.UId;
+    const cart = await cartDB.getById(idCart);
+    const prodList = await productsDB.getAll();
+    const selectedProd = await productsDB.getById(req.body.UId);
+
+    res.render("pages/shop", {
+      data: prodList,
+      saveData: await cartDB.addToCart(cart, selectedProd, idCart),
+      user,
+    });
   })
   .delete(async (req, res) => {
     if (admin) {
@@ -76,7 +84,7 @@ router
 router
   .route("/cargar-productos")
   // .get(checkUserSession, async (req, res) => {
-  .get(async (req, res) => {
+  .get(checkUserSession, async (req, res) => {
     const user = req.user;
     res.render("pages/loadProducts", {
       data: await productsDB.getAll(),
@@ -86,16 +94,11 @@ router
   .post(async (req, res) => {
     try {
       const user = req.user;
-      // if (req.body) {
-      // res.send(req.body);
       res.render("pages/loadProducts", {
         data: await productsDB.getAll(),
-        saveData: await productsDB.add(req.body),
+        saveData: await productsDB.save(req.body),
         user: user,
       });
-      // } else {
-      //   return { error: "-1", descripcion: `POST a "/" no autorizado` };
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -103,8 +106,7 @@ router
 
 router
   .route("/:id?")
-  // .get(logInfo, checkUserSession, async (req, res) => {
-  .get(logInfo, async (req, res) => {
+  .get(logInfo, checkUserSession, async (req, res) => {
     if (req.params.id) {
       const prod = await productsDB.getById(req.params.id);
       if (prod) {
