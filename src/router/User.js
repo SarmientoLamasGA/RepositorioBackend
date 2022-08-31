@@ -114,7 +114,7 @@ router.route("/logout").get(logInfo, async (req, res) => {
       if (err) {
         console.log(err);
       }
-      res.redirect("/api/user");
+      res.redirect("/api/usuario");
     });
   } catch (err) {
     console.log(err);
