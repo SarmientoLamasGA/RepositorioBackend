@@ -49,8 +49,8 @@ app.use("/api/productos", productos);
 const cart = require("./router/cart");
 app.use("/api/carrito", cart);
 
-const logIn = require("./router/User");
-app.use("/api/usuario", logIn);
+const user = require("./router/User");
+app.use("/api/usuario", user);
 
 const info = require("./router/info");
 app.use("/api/info", info);
