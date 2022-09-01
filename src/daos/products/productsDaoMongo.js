@@ -17,7 +17,6 @@ class ProductsDaosMongo extends ContainerMongo {
     try {
       console.log(typeof category);
       const prodExist = await this.collection.find({ category: category });
-      console.log(prodExist);
       if (prodExist) {
         return prodExist;
       }

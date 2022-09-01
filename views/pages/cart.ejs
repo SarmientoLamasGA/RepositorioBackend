@@ -1,19 +1,19 @@
 <%- include("../partials/head.ejs") -%> <% if(data) { %>
-<section class="myCart">
+<section class="myCart container-fluid">
   <h1>Mi carrito</h1>
   <p>Carrito del usuario: <%= data.username %></p>
 </section>
-<ul>
-  <p>Productos</p>
+<ul class="container-fluid">
+  <p>Mis productos guardados</p>
 
   <% if (data.productos.length > 0) { %> 
   <% data.productos.forEach(x => {%>
-  <li>
+  <li class="container bg-success bg-opacity-25 col-2 p-3">
     <div>
       <form action="" method="post">
         <h3><%= x.title %></h3>
         <p>$ <%= x.price %></p>
-        <p>ID <%= x.UId %></p>
+        <img src="<%= x.thumbnail %>" alt="" height="100px">
         <button type="submit" name="UId" value="<%= x.UId %>">
           Borrar</butt
         >
@@ -22,7 +22,7 @@
   </li>
 <%}) %>
 <h2>
-  <button>
+  <button class="btn btn-light">
     <a href="../carrito/<%= data.UId %>/checkout"
       >Continuar con la compra</a
     >

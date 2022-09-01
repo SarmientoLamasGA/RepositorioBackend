@@ -1,8 +1,21 @@
 <%- include("../partials/head.ejs") -%>
+<section class="container-fluid d-flex justify-content-center">
+    <% if (prod.length > 0) {prod.forEach(x => {%> 
+  <div>
+    <h3><%= x.title %></h3>
+    <h4>$<%= x.price %></h4>
+    <img src="<%= x.thumbnail %>" alt="" />
+    <p><%= x.category %></p>
+    <p><%= x.description %></p>
+    <p>Stock disponible: <%= x.stock %></p>
+  </div>
+</section>
+<% }) }%> 
 
-    <section class="formSection container-fluid d-flex justify-content-center border border-5">
-      <h1>Agregar un producto</h1>
-      <form method="post" class="container-fluid">
+<% if (user.admin){ %> 
+<section class="editSection">
+    <h3>Modificar producto</h3>
+    <form method="post" class="container-fluid">
         <label for="Producto"
           >Producto
           <input
@@ -54,28 +67,6 @@
         </label>
         <button type="submit">Cargar producto</button>
       </form>
-    </section>
-    <section class="prodList container-fluid">
-      <div id="prodTable">
-        <%if (data.length > 0 ) {data.forEach(x => {%>
-          <div class="prod">
-            <p class="title"><%=x.title%></p>
-            <div>
-              <img
-                src="<%=x.thumbnail%>"
-                alt="<%=x.title%> img"
-                style="max-height: 150px"
-              />
-            </div>
-            <td><p class="price">$<%=x.price%></p></td>
-          </div>
-          
-          <%}) } else {%>
-          <div class="prod">
-            <p>No hay productos</p>
-          </div>
-          <% } %>
-        </tbody>
-      </table>
-
-    <%- include("../partials/footer.ejs") -%>
+</section>
+<% } %> 
+<%- include("../partials/footer.ejs") -%>

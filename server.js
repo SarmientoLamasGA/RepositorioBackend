@@ -38,7 +38,6 @@ if (options.mode == "cluster") {
   io.on("connection", async (socket) => {
     io.sockets.emit("requestChat", await chatDB.getAll());
     socket.on("newMessage", async (message) => {
-      console.log("HOLA");
       await chatDB.sendMessage();
       io.sockets.emit("messages", { data: await chatDB.getById() });
     });

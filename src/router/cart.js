@@ -68,6 +68,7 @@ router
       lastName: req.body.lastname,
       email: req.body.email,
     };
+
     const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
 
     const mailOptions = {

@@ -1,15 +1,19 @@
 <%- include("../partials/head.ejs") -%>
 
-<section class="shopSection">
+<section class="shopSection container-fluid row justify-content-center">
   <h1>Lista de productos</h1>
   <% if (data.length > 0) {data.forEach( x => { %>
-  <form action="" method="post">
+  <form
+    action=""
+    method="post"
+    class="container bg-success bg-opacity-25 rounded-4 mt-5 p-3 col-3 row justify-content-center"
+  >
     <div>
       <div>
         <h3><%= x.title %></h3>
-        <img src="<%= x.thumbnail %> " alt="<%= x.title %> " />
-        <p><%= x.price %></p>
-        <p><%= x.UId %></p>
+        <img src="<%= x.thumbnail %> " alt="<%= x.title %> " height="200px" />
+        <p>$<%= x.price %></p>
+        <p>ID Producto: <%= x.UId %></p>
       </div>
       <button type="submit" name="UId" value="<%= x.UId %> ">
         Agregar al carrito

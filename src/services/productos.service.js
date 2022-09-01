@@ -19,7 +19,7 @@ class ProductService {
     return await this.dao.getById(id);
   }
 
-  async add(obj) {
+  async save(obj) {
     return await this.dao.save(obj);
   }
 

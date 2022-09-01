@@ -38,17 +38,15 @@
     return false;
   };
   const renderChat = (data) => {
-    console.log("HOLA");
     chatBox.innerHTML = "";
     const chat = data
       .map((message) => {
         return `<div>
-                  <strong>${message.userEmail} ha dejado un mesaje</strong>: 
+                  <strong>${message.userEmail} ha dejado un mesaje</strong>:
                   <em>${message.message} a las ${message.time}</em>
                 </div>`;
       })
       .join(" ");
-    chatBox.innerHTML = chat;
   };
   socket.on("requestChat", (data) => {
     renderChat(data);
