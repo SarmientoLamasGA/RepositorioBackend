@@ -3,16 +3,19 @@ const cartDB = new CartService();
 const OrderService = require("../services/orders.service");
 const ordersDB = new OrderService();
 
+require("dotenv").config();
+
 //EMAIL
 const { createTransport } = require("nodemailer");
-const MAIL = "shawn.dubuque13@ethereal.email";
+const etherealMail = "shawn.dubuque13@ethereal.email";
+const etherealPass = "9Q2nBhv9wSZHWYaHHt";
 const transporter = createTransport({
   name: "shawn.dubuque13@ethereal.email",
   host: "smtp.ethereal.email",
   port: 587,
   auth: {
-    user: MAIL,
-    pass: "9Q2nBhv9wSZHWYaHHt",
+    user: etherealMail,
+    pass: etherealPass,
   },
 });
 
@@ -65,7 +68,7 @@ class CartController {
 
       const mailOptions = {
         from: `${contact.email}`,
-        to: `${MAIL}`,
+        to: `${etherealMail}`,
         subject: "Compra aceptada",
         text: `Se confirmó la compra de ${contact.name} ${contact.lastName}`,
       };

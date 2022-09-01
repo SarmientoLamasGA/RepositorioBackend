@@ -5,4 +5,6 @@ module.exports = {
   HOST: process.env.HOST || "127.0.0.1",
   MONGODB_SESSION: process.env.MONGODB_SESSION,
   MONGODB_CONTAINERMONGO: process.env.MONGODB_CONTAINERMONGO,
+  MAIL: process.env.MAIL,
+  PASS: process.env.PASS,
 };
