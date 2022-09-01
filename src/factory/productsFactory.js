@@ -5,6 +5,7 @@ const db = options.db;
 class ProductsFactory {
   create() {
     const db = ProductsDaosMongo.getInstance();
+    return db;
   }
 }
 

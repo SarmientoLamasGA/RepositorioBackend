@@ -3,13 +3,11 @@ const logInfo = require("../utils/logger.info");
 const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB
-const CartsFactory = require("../factory/cartFactory");
-const cartsFact = new CartsFactory();
-const cartDB = cartsFact.create();
+const CartService = require("../services/cart.service");
+const cartDB = new CartService();
 
-const OrdersFactory = require("../factory/ordersFactory");
-const ordersFact = new OrdersFactory();
-const ordersDB = ordersFact.create();
+const OrderService = require("../services/orders.service");
+const ordersDB = new OrderService();
 
 //EMAIL
 const { createTransport } = require("nodemailer");

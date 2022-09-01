@@ -4,7 +4,7 @@ const logWarn = require("../utils/logger.warn");
 const router = new Router();
 
 router.route("*").get(logWarn, (req, res) => {
-  res.send("Error");
+  res.redirect("/");
 });
 
 module.exports = router;

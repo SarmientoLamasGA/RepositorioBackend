@@ -43,17 +43,11 @@ io.on("connection", async () => {
 const root = require("./router/root");
 app.use("/", root);
 
-const productosRouter = require("./router/productos");
-app.use("/api/productos", productosRouter);
+const productos = require("./router/productos");
+app.use("/api/productos", productos);
 
-const cartRouter = require("./router/cart");
-app.use("/api/micarrito", cartRouter);
-
-const cartAndProductsRouter = require("./router/cartAndProductsRouter");
-app.use("/api/carrito/productos", cartAndProductsRouter);
-
-const cookies = require("./router/cookies");
-app.use("/api/cookies", cookies);
+const cart = require("./router/cart");
+app.use("/api/carrito", cart);
 
 const logIn = require("./router/User");
 app.use("/api/usuario", logIn);
@@ -61,23 +55,8 @@ app.use("/api/usuario", logIn);
 const info = require("./router/info");
 app.use("/api/info", info);
 
-const random = require("./router/random");
-app.use("/api/random", random);
-
-const shop = require("./router/shop");
-app.use("/api/tienda", shop);
-
 const chat = require("./router/chat");
 app.use("/api/chat", chat);
-
-const contactMail = require("./router/contactMail");
-app.use("/api/contacto", contactMail);
-
-const contactSms = require("./router/contactSms");
-app.use("/api/contactosms", contactSms);
-
-const contactWsp = require("./router/contactWsp");
-app.use("/api/contactowsp", contactWsp);
 
 //Rutas inexistentes, este siempre tiene que ir último
 const rutaError = require("./router/routeWarn");

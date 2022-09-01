@@ -99,32 +99,6 @@ class ContainerMongo {
       console.log(err);
     }
   }
-
-  async addToCart(cart, selectedProd) {
-    try {
-      selectedProd.sent = Number(Date.now());
-      await cart.productos.push(selectedProd);
-      this.update(cart.UId, cart);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async deleteFromCart(cart, idCart, idProd) {
-    try {
-      const findId = Number(idProd);
-      const prodIndex = cart.productos.findIndex((p) => p.UId === findId);
-      if (prodIndex !== -1) {
-        cart.productos.splice(prodIndex, 1);
-        await this.update(idCart, cart);
-        return await this.getById(idCart);
-      } else {
-        return { Info: `El elemento a eliminar no existe` };
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
 }
 
 module.exports = ContainerMongo;

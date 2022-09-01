@@ -9,19 +9,12 @@ const checkUserSession = require("../middlewares/checkUserSession");
 
 const router = new Router();
 
-//Mongo DB
+//DB
+const CartService = require("../services/cart.service");
+const cartDB = new CartService();
 
-// const productsFactory = require("../factory/productsFactory");
-// const factory = new productsFactory();
-// const productsDB = factory.create();
-
-const CartDaosMongo = require("../daos/cart/cartDaoMongo");
-const cartDB = new CartDaosMongo();
-
-const ProductsDaosMongo = require("../daos/products/productsDaoMongo");
-const productsDB = new ProductsDaosMongo();
-
-const admin = true;
+const ProductsService = require("../services/productos.service");
+const productsDB = new ProductsService();
 
 // //Websocket
 // io.on("connection", async (socket) => {
@@ -47,7 +40,6 @@ const admin = true;
 //Listado de productos
 router
   .route("/")
-  // .get(logInfo, checkUserSession, async (req, res) => {
   .get(checkUserSession, logInfo, async (req, res) => {
     try {
       const user = req.user;
@@ -83,7 +75,6 @@ router
 
 router
   .route("/cargar-productos")
-  // .get(checkUserSession, async (req, res) => {
   .get(checkUserSession, async (req, res) => {
     const user = req.user;
     res.render("pages/loadProducts", {
