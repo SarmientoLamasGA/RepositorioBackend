@@ -23,7 +23,7 @@ class UserController {
         req.session.username = req.user.username;
         res.redirect("/api/usuario/sesion");
       } catch (err) {
-        console.log(err);
+        res.render("Ha ocurrido un error");
       }
     }
   }
@@ -44,7 +44,6 @@ class UserController {
     {
       try {
         const user = req.user;
-        console.log(user);
         if (!user) {
           res.render("pages/userInfo", {
             user: user,
@@ -59,7 +58,7 @@ class UserController {
           });
         }
       } catch (err) {
-        console.log(err);
+        res.render("Ha ocurrido un error");
       }
     }
   }
@@ -100,12 +99,12 @@ class UserController {
       try {
         req.logout((err) => {
           if (err) {
-            console.log(err);
+            res.render("Ha ocurrido un error");
           }
           res.redirect("/api/usuario");
         });
       } catch (err) {
-        console.log(err);
+        res.render("Ha ocurrido un error");
       }
     }
   }
@@ -114,10 +113,9 @@ class UserController {
     {
       try {
         const user = req.user;
-        console.log(user);
         res.send("Este mensaje solo es visible si sos admin");
       } catch (err) {
-        console.log(err);
+        res.render("Ha ocurrido un error");
       }
     }
   }

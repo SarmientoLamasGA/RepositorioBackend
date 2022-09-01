@@ -28,7 +28,7 @@ class CartController {
         const userUId = user.UId;
         res.render("pages/cart", { data: await cartDB.getById(userUId), user });
       } catch (error) {
-        console.log(error);
+        res.render("Ha ocurrido un error");
       }
     }
   }

@@ -33,7 +33,7 @@ class OrderDaoMongo extends ContainerMongo {
 
       return number;
     } catch (error) {
-      console.log(error);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -51,7 +51,7 @@ class OrderDaoMongo extends ContainerMongo {
       const newProd = await this.collection.create(newOrder);
       return newProd;
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 }

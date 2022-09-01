@@ -16,7 +16,7 @@ router.route("/").get(logInfo, checkUserSession, async (req, res) => {
 
     res.render("pages/chats", { data: await chatDB.getById(userUId), user });
   } catch (error) {
-    console.log(error);
+    res.render("Ha ocurrido un error");
   }
 });
 

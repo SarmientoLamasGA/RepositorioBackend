@@ -11,7 +11,7 @@ class ProductController {
       const prodList = await productsDB.getAll();
       res.render("pages/shop", { data: prodList, user });
     } catch (error) {
-      console.log(error);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -43,21 +43,20 @@ class ProductController {
       const prodList = await productsDB.getAll();
       res.render("pages/loadProducts", { data: prodList, user });
     } catch (error) {
-      console.log(error);
+      res.render("Ha ocurrido un error");
     }
   }
   async loadProduct(req, res) {
     {
       try {
         const user = req.user;
-        console.log(req.body);
         res.render("pages/loadProducts", {
           data: await productsDB.getAll(),
           saveData: await productsDB.save(req.body),
           user: user,
         });
       } catch (error) {
-        console.log(error);
+        res.render("Ha ocurrido un error");
       }
     }
   }
@@ -74,7 +73,7 @@ class ProductController {
           res.send({ Error: "Producto inexistente" });
         }
       } else {
-        console.log(await productsDB.getAll());
+        return await productsDB.getAll();
       }
     }
   }
@@ -114,7 +113,7 @@ class ProductController {
           res.render("pages/loadProducts", { data: prodList, user });
         }
       } else {
-        console.log(await productsDB.getAll()); //Se obtiene todo el contenido
+        return await productsDB.getAll(); //Se obtiene todo el contenido
       }
     }
   }

@@ -36,7 +36,6 @@ passport.use(
         return done(null, false);
       }
       const validPassword = await bcrypt.compare(password, user.password);
-      console.log(validPassword);
       if (validPassword) {
         return done(null, user);
       } else {

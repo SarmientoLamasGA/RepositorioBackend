@@ -17,7 +17,7 @@ const genId = async (db) => {
 
     return id;
   } catch (error) {
-    console.log(error);
+    res.render("Ha ocurrido un error");
   }
 };
 
@@ -38,13 +38,12 @@ class ContainerMongo {
       const doc = this.collection.find();
       return doc;
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
   async getById(id) {
     try {
-      console.log(id);
       const objExist = await this.collection.findOne({ UId: id });
       if (!!objExist) {
         return objExist;
@@ -52,7 +51,7 @@ class ContainerMongo {
         return !!objExist;
       }
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -69,7 +68,7 @@ class ContainerMongo {
         return newProd;
       }
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -78,7 +77,7 @@ class ContainerMongo {
       await this.collection.findOneAndUpdate({ UId: id }, data);
       return { Info: "Updated" };
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -87,7 +86,7 @@ class ContainerMongo {
       await this.collection.deleteMany({});
       return await this.collection.find();
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -96,7 +95,7 @@ class ContainerMongo {
       await this.collection.findOneAndDelete({ UId: id });
       return await this.collection.find();
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
   async addToCart(cart, selectedProd) {
@@ -112,7 +111,7 @@ class ContainerMongo {
       await cart.productos.push(prodDTO);
       this.update(cart.UId, cart);
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 
@@ -127,7 +126,7 @@ class ContainerMongo {
         return { Info: `El elemento a eliminar no existe` };
       }
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 }

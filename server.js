@@ -12,7 +12,6 @@ const chatDB = new ChatService();
 
 if (options.mode == "cluster") {
   if (cluster.isMaster) {
-    console.log("Modo cluster");
     for (i = 0; i < numCPU; i++) {
       cluster.fork();
     }

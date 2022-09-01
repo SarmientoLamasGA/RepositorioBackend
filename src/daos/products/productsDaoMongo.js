@@ -15,13 +15,12 @@ class ProductsDaosMongo extends ContainerMongo {
 
   async getByCategory(category) {
     try {
-      console.log(typeof category);
       const prodExist = await this.collection.find({ category: category });
       if (prodExist) {
         return prodExist;
       }
     } catch (err) {
-      console.log(err);
+      res.render("Ha ocurrido un error");
     }
   }
 }

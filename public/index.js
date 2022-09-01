@@ -16,7 +16,6 @@ const addMessage = (e) => {
 };
 
 const renderChat = (data) => {
-  console.log(data);
   chatBox.innerHTML = "";
   const html = data
     .map((message) => {
