@@ -68,6 +68,7 @@ router
       lastName: req.body.lastname,
       email: req.body.email,
     };
+    const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
 
     const mailOptions = {
       from: `${contact.email}`,
@@ -85,8 +86,7 @@ router
     });
 
     const order = await ordersDB.saveOrder(cart, email);
-    res.send(order);
-    // res.render("pages/order", { order, user });
+    res.render("pages/order", { order, user, totalPrice });
   });
 
 router.route("/todos").get(logInfo, checkUserSession, async (req, res) => {

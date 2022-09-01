@@ -1,6 +1,57 @@
 <%- include("../partials/head.ejs") -%> <% if (user.admin){ %>
 <p>chat de admin</p>
-<% } else if (!user.admin){ %> <%- include("../partials/chatUser.ejs") %> <%
-}else { %>
+<% } else if (!user.admin){ %>
+<section class="chatUserSection">
+  <h1>Contacto</h1>
+  <h3>Deje su mensaje</h3>
+  <div>
+    <form onsubmit="addMessage(this)">
+      <label for="Mensaje"
+        >Ingrese mensaje
+        <input type="message" id="inputMessage" required />
+      </label>
+      <button type="submit" id="btnSend">Enviar Mensaje</button>
+    </form>
+  </div>
+  <h1>Historial de mensajes</h1>
+  <div id="chatBox">
+    <% if (data.messages < 1) { %>
+    <p>No hay mensajes que mostrar</p>
+    <% } %>
+  </div>
+</section>
+<% }else { %>
 <p>ERROR</p>
-<% } %> <%- include("../partials/footer.ejs") -%>
+<% } %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const message = document.getElementById("inputMessage");
+  const chatBox = document.getElementById("chatBox");
+  const addMessage = (e) => {
+    const messageInfo = {
+      message: message.value,
+      time: new Date(),
+    };
+    socket.emit("newMessage", messageInfo);
+    return false;
+  };
+  const renderChat = (data) => {
+    console.log("HOLA");
+    chatBox.innerHTML = "";
+    const chat = data
+      .map((message) => {
+        return `<div>
+                  <strong>${message.userEmail} ha dejado un mesaje</strong>: 
+                  <em>${message.message} a las ${message.time}</em>
+                </div>`;
+      })
+      .join(" ");
+    chatBox.innerHTML = chat;
+  };
+  socket.on("requestChat", (data) => {
+    renderChat(data);
+  });
+</script>
+<%- include("../partials/footer.ejs") -%>

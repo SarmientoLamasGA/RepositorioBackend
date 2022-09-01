@@ -12,7 +12,12 @@ class ChatDaoMongo extends ContainerMongo {
     }
     return instance;
   }
-  async sendMessage() {}
+  async sendMessage(UId, message) {
+    const chat = await this.getById(UId);
+    chat.messages.push(message);
+
+    await this.update(UId, chat);
+  }
 }
 
 module.exports = ChatDaoMongo;

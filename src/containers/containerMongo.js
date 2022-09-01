@@ -45,11 +45,11 @@ class ContainerMongo {
   async getById(id) {
     try {
       console.log(id);
-      const prodExist = await this.collection.findOne({ UId: id });
-      if (!!prodExist) {
-        return prodExist;
+      const objExist = await this.collection.findOne({ UId: id });
+      if (!!objExist) {
+        return objExist;
       } else {
-        return !!prodExist;
+        return !!objExist;
       }
     } catch (err) {
       console.log(err);

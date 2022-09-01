@@ -1,2 +1,19 @@
-<%- include("../partials/head.ejs") -%> <%- include("../partials/footer.ejs")
--%>
+<%- include("../partials/head.ejs") -%>
+<div>
+  <h3>Su ID de compra es: <%= order.orderNumber %></h3>
+  <p>Comprador: <%= order.username %></p>
+  <p>Email: <%= order.contactMail %></p>
+  <h4>Lista de productos</h4>
+  <ul>
+    <% order.productos.forEach(x => {%>
+    <li>
+      <div>
+        <h3><%= x.title %></h3>
+        <p><%= x.price %></p>
+      </div>
+    </li>
+    <%}) %>
+  </ul>
+  <h3>Total a pagar: $<%= totalPrice %></h3>
+</div>
+<%- include("../partials/footer.ejs") -%>

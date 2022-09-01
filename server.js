@@ -7,6 +7,8 @@ const io = new IOServer(httpServer);
 const options = require("./src/utils/minimist.options");
 const cluster = require("cluster");
 const numCPU = require("os").cpus().length;
+const ChatService = require("./src/services/cart.service");
+const chatDB = new ChatService();
 
 if (options.mode == "cluster") {
   if (cluster.isMaster) {
@@ -21,7 +23,11 @@ if (options.mode == "cluster") {
     });
 
     io.on("connection", async (socket) => {
-      app.set("socket", socket);
+      io.sockets.emit("requestChat", await chatDB.getById());
+      socket.on("newMessage", async (message) => {
+        await chatDB.sendMessage(UId, message);
+        io.sockets.emit("messages", { data: await chatDB.getById(UId) });
+      });
     });
   }
 } else {
@@ -30,6 +36,11 @@ if (options.mode == "cluster") {
   });
 
   io.on("connection", async (socket) => {
-    app.set("socket", socket);
+    io.sockets.emit("requestChat", await chatDB.getAll());
+    socket.on("newMessage", async (message) => {
+      console.log("HOLA");
+      await chatDB.sendMessage();
+      io.sockets.emit("messages", { data: await chatDB.getById() });
+    });
   });
 }
