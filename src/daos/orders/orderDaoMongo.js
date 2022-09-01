@@ -2,6 +2,9 @@ const ContainerMongo = require("../../containers/containerMongo");
 const ordersSchema = require("../models/orders.model");
 let instance = null;
 
+const CartService = require("../../services/cart.service");
+const cartDB = new CartService();
+
 class OrderDaoMongo extends ContainerMongo {
   constructor() {
     super("orders", ordersSchema);
@@ -34,16 +37,17 @@ class OrderDaoMongo extends ContainerMongo {
     }
   }
 
-  async saveOrder(obj, email) {
+  async saveOrder(cart, user, email) {
     try {
       const orderNumber = await this.genOrderNumber();
       const newOrder = {
         orderNumber,
-        UId: obj.UId,
-        username: obj.username,
+        UId: cart.UId,
+        username: user.username,
         contactMail: email,
-        productos: obj.productos,
+        productos: cart.productos,
       };
+
       const newProd = await this.collection.create(newOrder);
       return newProd;
     } catch (err) {

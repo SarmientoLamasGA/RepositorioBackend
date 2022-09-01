@@ -4,102 +4,24 @@ const auth = require("../middlewares/auth");
 const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB
-const CartService = require("../services/cart.service");
-const cartDB = new CartService();
-
-const OrderService = require("../services/orders.service");
-const ordersDB = new OrderService();
-
-//EMAIL
-const { createTransport } = require("nodemailer");
-const MAIL = "shawn.dubuque13@ethereal.email";
-const transporter = createTransport({
-  name: "shawn.dubuque13@ethereal.email",
-  host: "smtp.ethereal.email",
-  port: 587,
-  auth: {
-    user: MAIL,
-    pass: "9Q2nBhv9wSZHWYaHHt",
-  },
-});
+const CartController = require("../controllers/cart.controller");
+const cartController = new CartController();
 
 const router = new Router();
 
 router
   .route("/")
-  .get(logInfo, checkUserSession, async (req, res) => {
-    try {
-      const user = req.user;
-      const userUId = user.UId;
-      res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-    } catch (error) {
-      console.log(error);
-    }
-  })
-  .post(logInfo, checkUserSession, auth, async (req, res) => {
-    const user = req.user;
-    const userUId = user.UId;
-    const cart = await cartDB.getById(userUId);
-    await cartDB.deleteFromCart(cart, userUId, req.body.UId);
-    res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-  })
-  .delete(logInfo, checkUserSession, auth, async (req, res) => {
-    const user = req.user;
-    const userUId = user.UId;
-    const cart = await cartDB.getById(userUId);
-    await cartDB.deleteFromCart(cart, userUId, req.body.UId);
-    res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-  });
+  .get(logInfo, checkUserSession, cartController.getCartById) //Se obtiene el carrito
+  .post(logInfo, checkUserSession, auth, cartController.deleteFromCart) //Se borra producto del carrito SOLO DESDE VISTAS
+  .delete(logInfo, checkUserSession, auth, cartController.deleteFromCart); //Lo mismo que el POST pero desde el DELETE
 
 router
   .route("/:idCart/checkout")
-  .get(logInfo, checkUserSession, async (req, res) => {
-    const user = req.user;
-    const cart = await cartDB.getById(req.params.idCart);
-    const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
-
-    res.render("pages/checkout", { data: cart, totalPrice: totalPrice, user });
-  })
-  .post(checkUserSession, async (req, res) => {
-    const cart = await cartDB.getById(req.params.idCart);
-    const user = req.user;
-    const email = user.email;
-    const contact = {
-      name: req.body.name,
-      lastName: req.body.lastname,
-      email: req.body.email,
-    };
-
-    const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
-
-    const mailOptions = {
-      from: `${contact.email}`,
-      to: `${MAIL}`,
-      subject: "Compra aceptada",
-      text: "Compra Confirmada",
-      html: "<p>Compra realizada!</p>",
-    };
-    transporter.sendMail(mailOptions, function (err, info) {
-      if (err) {
-        console.log({ error: "error", message: err });
-      } else {
-        console.log({ info: info });
-      }
-    });
-
-    const order = await ordersDB.saveOrder(cart, email);
-    res.render("pages/order", { order, user, totalPrice });
-  });
+  .get(logInfo, cartController.checkOut) //Se va al checkOut para confirmar compra
+  .post(checkUserSession, cartController.confirmOrder); //Se confirma y guarda la compra, se vacía el carrito y se envía mail confirmando compra
 
 router
   .route("/todos")
-  .get(logInfo, checkUserSession, auth, async (req, res) => {
-    const user = req.user;
-    if (user.admin) {
-      res.render("pages/allCarts", { data: await cartDB.getAll(), user });
-    } else {
-      res.redirect("/api/usuario/sesion");
-    }
-  });
+  .get(logInfo, checkUserSession, auth, cartController.getAllCarts); //Se muestran todos los carritos existentes
 
 module.exports = router;

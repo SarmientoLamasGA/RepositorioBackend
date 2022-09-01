@@ -4,8 +4,8 @@ const checkUserSession = require("../middlewares/checkUserSession");
 const passport = require("../utils/passport.utils");
 const logInfo = require("../utils/logger.info");
 
-const DaoUserMongo = require("../daos/users/usersDaoMongo");
-const userMongo = new DaoUserMongo();
+const UserController = require("../controllers/user.controller");
+const userController = new UserController();
 
 const router = new Router();
 
@@ -15,121 +15,37 @@ router.route("/").get(async (req, res) => {
 
 router
   .route("/login")
-  .get(logInfo, async (req, res) => {
-    if (req.isAuthenticated()) {
-      res.redirect("/api/usuario/sesion");
-    } else {
-      const user = {
-        username: "Invitado",
-      };
-      res.render("pages/login", { user: user });
-    }
-  })
+  .get(logInfo, userController.getLogin) //Lleva al login
   .post(
     passport.authenticate("login", {
       failureRedirect: "/api/user/login-error",
     }),
-    async (req, res) => {
-      try {
-        req.session.username = req.user.username;
-        res.redirect("/api/usuario/sesion");
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  );
+    userController.postLogin
+  ); //Se realiza el post del login
 
-router.route("/login-error").get(logInfo, async (req, res) => {
-  res.render("pages/userInfo", {
-    error: true,
-    infoError: "Usuario o contraseña incorrectos",
-  });
-});
+router.route("/login-error").get(logInfo, userController.logError); //Se da error al dar datos erroneos
 
 router
   .route("/signup")
-  .get(logInfo, async (req, res) => {
-    res.render("pages/signup", { user: req.user });
-  })
+  .get(logInfo, userController.getSignUp) //Se lleva al registro
   .post(
     passport.authenticate("signup", {
       failureRedirect: "/api/user/signup-error",
     }),
-    async (req, res) => {
-      try {
-        const user = req.user;
-        console.log(user);
-        if (!user) {
-          res.render("pages/userInfo", {
-            user: user,
-            error: true,
-            infoError: "Error en el registro",
-          });
-        } else {
-          res.render("pages/userInfo", {
-            user: user,
-            error: false,
-            info: "Registrado",
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    userController.signUp //Se realiza el registro de los datos
   );
 
-router.route("/signup-error").get(logInfo, async (req, res) => {
-  res.render("pages/userInfo", {
-    error: true,
-    infoError: "El usuario ya existe",
-  });
-});
+router.route("/signup-error").get(logInfo, userController.signUpError); //Se indica que ya hay un usuario con el mismo nombre
 
 router
   .route("/sesion")
-  .get(logInfo, checkUserSession, async (req, res) => {
-    const user = req.user;
-    const expires = req.session.cookie._expires.toTimeString();
-    res.render("pages/userSession", {
-      user: user,
-      expires: expires,
-    });
-  })
-  .post(async (req, res) => {
-    let user = req.user;
-    const expires = req.session.cookie._expires.toTimeString();
-    const newImage = req.body.newImage;
-    user.profilePicture = newImage;
-    res.render("pages/userSession", {
-      user: user,
-      expires: expires,
-      updateData: await userMongo.update(user.UId, user),
-    });
-  });
+  .get(logInfo, checkUserSession, userController.sessionProfile) //Se lleva al perfil de la sesion iniciada
+  .post(checkUserSession, userController.newPhoto); //Se hace el post de la nueva imagen de perfil
 
-router.route("/logout").get(logInfo, async (req, res) => {
-  try {
-    req.logout((err) => {
-      if (err) {
-        console.log(err);
-      }
-      res.redirect("/api/usuario");
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+router.route("/logout").get(logInfo, userController.logOut); //Se realiza el logOut
 
 router
   .route("/privado")
-  .get(logInfo, checkUserSession, auth, async (req, res) => {
-    try {
-      const user = req.user;
-      console.log(user);
-      res.send("Este mensaje solo es visible si sos admin");
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  .get(logInfo, checkUserSession, auth, userController.private); //Se lleva a sección privada, solo para admins
 
 module.exports = router;
