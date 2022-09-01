@@ -25,6 +25,10 @@ class CartService {
   async deleteFromCart(cart, userUId, UId) {
     return await this.dao.deleteFromCart(cart, userUId, UId);
   }
+
+  async clearCart(id, cart) {
+    return await this.dao.clearCart(id, cart);
+  }
 }
 
 module.exports = CartService;

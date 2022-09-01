@@ -80,8 +80,8 @@ class CartController {
           console.log({ info: info });
         }
       });
+      await cartDB.clearCart(cart.UId, cart);
       const order = await ordersDB.saveOrder(cart, user, email);
-      // await cartDB.emptyCart(cart.UId, cart);
       res.render("pages/order", { order, user, totalPrice });
     }
   }

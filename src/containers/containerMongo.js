@@ -130,12 +130,6 @@ class ContainerMongo {
       console.log(err);
     }
   }
-
-  async emptyCart(id, cart) {
-    cart.productos = [];
-    console.log(cart);
-    await this.collection.findOneAndUpdate({ UId: id }, data);
-  }
 }
 
 module.exports = ContainerMongo;

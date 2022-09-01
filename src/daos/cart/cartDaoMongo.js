@@ -12,6 +12,11 @@ class CartDaosMongo extends ContainerMongo {
     }
     return instance;
   }
+
+  async clearCart(id, cart) {
+    cart.productos = [];
+    return await this.collection.findOneAndUpdate({ UId: id }, cart);
+  }
 }
 
 module.exports = CartDaosMongo;
