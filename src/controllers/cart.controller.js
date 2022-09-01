@@ -1,14 +1,7 @@
-const { Router } = require("express");
-const logInfo = require("../utils/logger.info");
-const checkUserSession = require("../middlewares/checkUserSession");
-
-//DB
 const CartService = require("../services/cart.service");
 const cartDB = new CartService();
-
 const OrderService = require("../services/orders.service");
 const ordersDB = new OrderService();
-
 //EMAIL
 const { createTransport } = require("nodemailer");
 const MAIL = "shawn.dubuque13@ethereal.email";
@@ -22,11 +15,8 @@ const transporter = createTransport({
   },
 });
 
-const router = new Router();
-
-router
-  .route("/")
-  .get(logInfo, checkUserSession, async (req, res) => {
+class CartController {
+  async getCart() {
     try {
       const user = req.user;
       const userUId = user.UId;
@@ -34,32 +24,29 @@ router
     } catch (error) {
       console.log(error);
     }
-  })
-  .post(async (req, res) => {
-    const user = req.user;
-    const userUId = user.UId;
-    const cart = await cartDB.getById(userUId);
-    await cartDB.deleteFromCart(cart, userUId, req.body.UId);
-    res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-  })
-  .delete(async (req, res) => {
-    const user = req.user;
-    const userUId = user.UId;
-    const cart = await cartDB.getById(userUId);
-    await cartDB.deleteFromCart(cart, userUId, req.body.UId);
-    res.render("pages/cart", { data: await cartDB.getById(userUId), user });
-  });
+  }
 
-router
-  .route("/:idCart/checkout")
-  .get(checkUserSession, async (req, res) => {
+  async removeProduct() {
+    try {
+      const user = req.user;
+      const userUId = user.UId;
+      const cart = await cartDB.getById(userUId);
+      await cartDB.deleteFromCart(cart, userUId, req.body.UId);
+      res.render("pages/cart", { data: await cartDB.getById(userUId), user });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getCheckOut() {
     const user = req.user;
     const cart = await cartDB.getById(req.params.idCart);
     const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
 
     res.render("pages/checkout", { data: cart, totalPrice: totalPrice, user });
-  })
-  .post(async (req, res) => {
+  }
+
+  async postCheckOut() {
     const cart = await cartDB.getById(req.params.idCart);
     const user = req.user;
     const email = user.email;
@@ -86,16 +73,16 @@ router
 
     const order = await ordersDB.saveOrder(cart, email);
     res.send(order);
-    // res.render("pages/order", { order, user });
-  });
-
-router.route("/todos").get(logInfo, checkUserSession, async (req, res) => {
-  const user = req.user;
-  if (user.admin) {
-    res.render("pages/allCarts", { data: await cartDB.getAll(), user });
-  } else {
-    res.redirect("/api/usuario/sesion");
   }
-});
 
-module.exports = router;
+  async getAllCarts() {
+    const user = req.user;
+    if (user.admin) {
+      res.render("pages/allCarts", { data: await cartDB.getAll(), user });
+    } else {
+      res.redirect("/api/usuario/sesion");
+    }
+  }
+}
+
+module.exports = CartController;

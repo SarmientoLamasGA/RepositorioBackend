@@ -11,8 +11,8 @@ class OrderService {
     this.dao = getDao();
   }
 
-  async saveOrder() {
-    return await this.dao.saveOrder();
+  async saveOrder(cart, email) {
+    return await this.dao.saveOrder(cart, email);
   }
 }
 

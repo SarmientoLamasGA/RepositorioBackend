@@ -99,6 +99,37 @@ class ContainerMongo {
       console.log(err);
     }
   }
+  async addToCart(cart, selectedProd) {
+    try {
+      const prodDTO = {
+        UId: selectedProd.UId,
+        title: selectedProd.title,
+        price: selectedProd.price,
+        thumbnail: selectedProd.thumbnail,
+        description: selectedProd.description,
+      };
+      selectedProd.sent = Number(Date.now());
+      await cart.productos.push(prodDTO);
+      this.update(cart.UId, cart);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async deleteFromCart(cart, idCart, idProd) {
+    try {
+      const prodIndex = cart.productos.findIndex((p) => p.UId == idProd);
+      if (prodIndex !== -1) {
+        cart.productos.splice(prodIndex, 1);
+        await this.update(idCart, cart);
+        return await this.getById(idCart);
+      } else {
+        return { Info: `El elemento a eliminar no existe` };
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ContainerMongo;

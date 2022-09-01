@@ -11,15 +11,19 @@ class CartService {
   }
 
   async getAll() {
-    return this.dao.getAll();
+    return await this.dao.getAll();
   }
 
   async getById(id) {
-    return this.dao.getById(id);
+    return await this.dao.getById(id);
   }
 
   async addToCart(cart, selectedProd, idCart) {
-    return this.dao.addToCart(cart, selectedProd, idCart);
+    return await this.dao.addToCart(cart, selectedProd, idCart);
+  }
+
+  async deleteFromCart(cart, userUId, UId) {
+    return await this.dao.deleteFromCart(cart, userUId, UId);
   }
 }
 

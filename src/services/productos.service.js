@@ -24,27 +24,27 @@ class ProductService {
   }
 
   async modify(id, data) {
-    return this.dao.update(id, data);
+    return await this.dao.update(id, data);
   }
 
   async clearCollection() {
-    return this.dao.deleteAll();
+    return await this.dao.deleteAll();
   }
 
   async deleteDoc(id) {
-    return this.dao.deleteById(id);
+    return await this.dao.deleteById(id);
   }
 
   async getByCategory(category) {
-    return this.dao.getByCategory(category);
+    return await this.dao.getByCategory(category);
   }
 
   async addToCart(cart, selectedProd) {
-    return this.dao.addToCart(cart, selectedProd);
+    return await this.dao.addToCart(cart, selectedProd);
   }
 
   async deleteFromCart(cart, idCart, idProd) {
-    return this.dao.deleteFromCart(cart, idCart, idProd);
+    return await this.dao.deleteFromCart(cart, idCart, idProd);
   }
 }
 

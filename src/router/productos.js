@@ -6,15 +6,12 @@ const checkUserSession = require("../middlewares/checkUserSession");
 
 // const httpServer = new HttpServer(express);
 // const io = new IOServer(httpServer);
-
 const router = new Router();
-
-//DB
-const CartService = require("../services/cart.service");
-const cartDB = new CartService();
 
 const ProductsService = require("../services/productos.service");
 const productsDB = new ProductsService();
+const CartService = require("../services/cart.service");
+const cartDB = new CartService();
 
 // //Websocket
 // io.on("connection", async (socket) => {
@@ -107,14 +104,14 @@ router
         res.send({ Error: "Producto inexistente" });
       }
     } else {
-      console.log(await productsDB.getAll()); //Se obtiene todo el contenido
+      console.log(await productsDB.getAll());
     }
   })
   .put(async (req, res) => {
     if (admin) {
       const idExist = await productsDB.getById(req.params.id);
       if (idExist) {
-        res.send(await productsDB.modify(req.params.id, req.body)); // Se modifica el objeto correspondiente al ID en caso de que exista;
+        res.send(await productsDB.modify(req.params.id, req.body));
       } else {
         res.send({ Info: "No existe el producto" });
       }
