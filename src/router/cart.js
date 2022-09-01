@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const logInfo = require("../utils/logger.info");
+const auth = require("../middlewares/auth");
 const checkUserSession = require("../middlewares/checkUserSession");
 
 //DB
@@ -35,14 +36,14 @@ router
       console.log(error);
     }
   })
-  .post(async (req, res) => {
+  .post(logInfo, checkUserSession, auth, async (req, res) => {
     const user = req.user;
     const userUId = user.UId;
     const cart = await cartDB.getById(userUId);
     await cartDB.deleteFromCart(cart, userUId, req.body.UId);
     res.render("pages/cart", { data: await cartDB.getById(userUId), user });
   })
-  .delete(async (req, res) => {
+  .delete(logInfo, checkUserSession, auth, async (req, res) => {
     const user = req.user;
     const userUId = user.UId;
     const cart = await cartDB.getById(userUId);
@@ -52,14 +53,14 @@ router
 
 router
   .route("/:idCart/checkout")
-  .get(checkUserSession, async (req, res) => {
+  .get(logInfo, checkUserSession, async (req, res) => {
     const user = req.user;
     const cart = await cartDB.getById(req.params.idCart);
     const totalPrice = cart.productos.reduce((a, b) => a + b.price, 0);
 
     res.render("pages/checkout", { data: cart, totalPrice: totalPrice, user });
   })
-  .post(async (req, res) => {
+  .post(checkUserSession, async (req, res) => {
     const cart = await cartDB.getById(req.params.idCart);
     const user = req.user;
     const email = user.email;
@@ -90,13 +91,15 @@ router
     res.render("pages/order", { order, user, totalPrice });
   });
 
-router.route("/todos").get(logInfo, checkUserSession, async (req, res) => {
-  const user = req.user;
-  if (user.admin) {
-    res.render("pages/allCarts", { data: await cartDB.getAll(), user });
-  } else {
-    res.redirect("/api/usuario/sesion");
-  }
-});
+router
+  .route("/todos")
+  .get(logInfo, checkUserSession, auth, async (req, res) => {
+    const user = req.user;
+    if (user.admin) {
+      res.render("pages/allCarts", { data: await cartDB.getAll(), user });
+    } else {
+      res.redirect("/api/usuario/sesion");
+    }
+  });
 
 module.exports = router;

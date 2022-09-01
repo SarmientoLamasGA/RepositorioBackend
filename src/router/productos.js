@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const logInfo = require("../utils/logger.info");
 const logError = require("../utils/logger.error");
+const auth = require("../middlewares/auth");
 const checkUserSession = require("../middlewares/checkUserSession");
 
 const router = new Router();
@@ -48,14 +49,14 @@ router
 
 router
   .route("/cargar-productos")
-  .get(checkUserSession, async (req, res) => {
+  .get(logInfo, checkUserSession, auth, async (req, res) => {
     const user = req.user;
     res.render("pages/loadProducts", {
       data: await productsDB.getAll(),
       user: user,
     });
   })
-  .post(async (req, res) => {
+  .post(auth, async (req, res) => {
     try {
       const user = req.user;
       console.log(req.body);
@@ -86,7 +87,7 @@ router
     }
   })
   //POST Y PUT HACEN LO MISMO, MODIFICAN OBJETO
-  .post(async (req, res) => {
+  .post(checkUserSession, auth, async (req, res) => {
     const idExist = await productsDB.getById(req.params.id);
     if (idExist) {
       res.send(await productsDB.modify(req.params.id, req.body));
@@ -94,7 +95,7 @@ router
       res.send({ Info: "No existe el producto" });
     }
   })
-  .put(async (req, res) => {
+  .put(checkUserSession, auth, async (req, res) => {
     const idExist = await productsDB.getById(req.params.id);
     if (idExist) {
       res.send(await productsDB.modify(req.params.id, req.body));
@@ -102,7 +103,7 @@ router
       res.send({ Info: "No existe el producto" });
     }
   })
-  .delete(async (req, res) => {
+  .delete(checkUserSession, auth, async (req, res) => {
     if (admin) {
       const idExist = await productsDB.getById(req.params.id);
       if (idExist) {

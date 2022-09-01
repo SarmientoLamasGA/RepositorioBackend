@@ -39,7 +39,7 @@ router
     }
   );
 
-router.route("/login-error").get(async (req, res) => {
+router.route("/login-error").get(logInfo, async (req, res) => {
   res.render("pages/userInfo", {
     error: true,
     infoError: "Usuario o contraseña incorrectos",
@@ -57,7 +57,6 @@ router
     }),
     async (req, res) => {
       try {
-        //REVISAR USUARIO DEVUELVE ARRAY
         const user = req.user;
         console.log(user);
         if (!user) {
@@ -79,7 +78,7 @@ router
     }
   );
 
-router.route("/signup-error").get(async (req, res) => {
+router.route("/signup-error").get(logInfo, async (req, res) => {
   res.render("pages/userInfo", {
     error: true,
     infoError: "El usuario ya existe",
@@ -127,7 +126,7 @@ router
     try {
       const user = req.user;
       console.log(user);
-      res.render("Este mensaje solo es visible si sos admin", { user: user });
+      res.send("Este mensaje solo es visible si sos admin");
     } catch (err) {
       console.log(err);
     }

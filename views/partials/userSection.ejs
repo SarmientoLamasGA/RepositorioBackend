@@ -1,5 +1,5 @@
 <% if (user) { %> <% if(user.username !== "Invitado"){ %>
-<section>
+<section class="container-fluid d-flex justify-content-between bg-light border">
   <a href="/api/usuario/sesion"
     ><div>
       <div>
@@ -13,6 +13,10 @@
       <p><%= user.username %></p>
     </div></a
   >
+
+  <a href="/api/carrito"
+    ><button class="btn btn-info">Ir a mi carrito</button>
+  </a>
 </section>
 
 <% } %> <% } else {%>
