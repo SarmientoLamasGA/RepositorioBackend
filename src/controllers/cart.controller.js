@@ -3,14 +3,15 @@ const cartDB = new CartService();
 const OrderService = require("../services/orders.service");
 const ordersDB = new OrderService();
 
+const config = require("../config/config");
 require("dotenv").config();
 
 //EMAIL
 const { createTransport } = require("nodemailer");
-const etherealMail = "shawn.dubuque13@ethereal.email";
-const etherealPass = "9Q2nBhv9wSZHWYaHHt";
+const etherealMail = config.MAIL;
+const etherealPass = config.PASS;
 const transporter = createTransport({
-  name: "shawn.dubuque13@ethereal.email",
+  name: config.MAIL,
   host: "smtp.ethereal.email",
   port: 587,
   auth: {
